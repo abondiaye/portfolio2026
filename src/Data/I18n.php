@@ -113,7 +113,7 @@ final class I18n
             'baAria' => 'Compare IT Technician and Web developer',
             'aboutEyebrow' => 'About me',
             'aboutTitle' => 'Two skill sets,<br><em>one point of contact.</em>',
-            'boardTitle' => 'Two trades.<br><em>One toolbox.</em>',
+            'boardTitle' => 'Two professions.<br><em>One toolbox.</em>',
             'boardCount' => 'skills used on assignments',
             'boardTag' => "N'DIAYE · TOOLBOX",
             'qualitiesAria' => 'Qualities',
