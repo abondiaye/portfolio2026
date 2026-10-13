@@ -419,12 +419,18 @@
         var io = new IntersectionObserver(function (es) {
             if (!es[es.length - 1].isIntersecting) return;
             io.disconnect();
-            var delay = el.closest('.fch-stats') ? 900 : 200, dur = 1600;
+            // petits nombres (7, 4, 10) : plus lent pour qu'on voie chaque chiffre défiler
+            var delay = el.closest('.fch-stats') ? 900 : 250, dur = to <= 20 ? 1300 + to * 110 : 1900, shown = -1;
             setTimeout(function () {
                 var t0 = performance.now();
                 (function step(now) {
-                    var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(2, -10 * k);   // départ rapide, fin en douceur
-                    el.textContent = pre + fmt(Math.round(to * (k < 1 ? e : 1))) + suf;
+                    var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);   // départ franc, fin en douceur
+                    var v = Math.round(to * (k < 1 ? e : 1));
+                    if (v !== shown) {
+                        shown = v;
+                        el.textContent = pre + fmt(v) + suf;
+                        if (to <= 20) { el.classList.remove('is-tick'); void el.offsetWidth; el.classList.add('is-tick'); }   // petit « clic » vert à chaque chiffre
+                    }
                     if (k < 1) requestAnimationFrame(step);
                 })(t0);
             }, delay);
