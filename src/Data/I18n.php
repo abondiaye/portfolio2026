@@ -227,7 +227,7 @@ final class I18n
                         ['value' => '2,500+', 'label' => 'users supported'],
                         ['value' => '2020', 'label' => 'coding since'],
                     ],
-                    'qualities' => ['Creative', 'Highly adaptable', 'People skills', 'Self-reliant', 'Curious', 'Versatile', 'Meticulous'],
+                    'qualities' => ['Creative', 'Highly adaptable', 'People skills', 'Independent', 'Curious', 'Versatile', 'Meticulous'],
                     'skills' => [
                         'Languages' => $fr['skills']['Langages'],
                         'Frameworks' => $fr['skills']['Frameworks'],
@@ -262,7 +262,7 @@ final class I18n
                     ['duration' => 'Short assignment', 'title' => 'Desktop Support Technician', 'items' => ['Incident management and remote assistance (HEAT, ServiceNow)', 'SCCM deployment and configuration on Windows 10 workstations', 'IT asset inventory and tracking']],
                     ['duration' => '1 year', 'title' => 'Desktop Support Technician', 'items' => ['Windows 7/10 and Active Directory desktop support', 'Troubleshooting, data recovery and workstation malware removal', 'Request management in EasyVista']],
                     ['duration' => '1 year', 'title' => 'IT Support Technician diploma (vocational baccalaureate level)', 'text' => 'Hands-on IT support: user assistance, workstation maintenance, and hardware and software deployment.', 'items' => ['Assisting and troubleshooting for users', 'Working on the infrastructure', 'Software and hardware', 'Deployment']],
-                    ['duration' => '1 year', 'title' => 'Vocational certificate: Reception & Driving (CAP)', 'text' => 'Trip management, road safety and customer relations.'],
+                    ['duration' => '1 year', 'title' => 'Vocational certificate: Passenger Reception & Driving (CAP)', 'text' => 'Trip management, road safety and customer relations.'],
                 ];
 
                 return self::overlay($fr, $en);
@@ -270,7 +270,7 @@ final class I18n
             case 'hobbies':
                 $en = [
                     ['title' => 'Cooking', 'tag' => 'Culinary passion', 'text' => 'I earned two culinary qualifications (CAP in Cooking and in Catering) back in 2003, and cooking is still a passion.'],
-                    ['title' => 'FiveToFive · Indoor football', 'tag' => 'Sport & community', 'text' => 'I love our urban neighbourhoods and supporting the younger kids in their indoor football competitions.'],
+                    ['title' => 'FiveToFive · Indoor football', 'tag' => 'Sport & community', 'text' => 'I love our urban neighbourhoods and supporting the younger kids of our community in their indoor football competitions.'],
                     ['title' => 'Computers & phones', 'tag' => 'Teardown & repair', 'text' => 'Out of curiosity and passion, I take apart and repair phones and computers, always trying to understand how they work.'],
                     ['title' => 'Volunteering · SIF association', 'tag' => 'Solidarity', 'text' => 'Volunteer at the SIF association, where I teach computer classes to seniors and help with food distribution.'],
                 ];
@@ -287,7 +287,7 @@ final class I18n
             case 'clients':
                 $fr = array_replace($fr, [
                     'eyebrow' => 'They trusted me',
-                    'title' => 'Ten years of assignments.|*One core.*',
+                    'title' => 'Ten years in the field.|*One solid core.*',
                     'text' => 'Energy, healthcare, industry, emergency services: critical environments where support cannot wait. Hover over a name to see what I did there.',
                     'core' => '10+ yrs',
                 ]);

@@ -410,11 +410,12 @@
     var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     els.forEach(function (el) {
         var txt = el.textContent.trim();
-        var m = txt.match(/^(\D*?)(\d+(?:[\s  ]\d{3})*)(.*)$/);
+        var m = txt.match(/^(\D*?)(\d{1,3}(?:[\s  ,]\d{3})+|\d+)(.*)$/);
         if (!m || /^(19|20)\d\d$/.test(txt)) return;          // une année (ex. 2020) ne se compte pas
         var pre = m[1], to = parseInt(m[2].replace(/\D/g, ''), 10), suf = m[3];
         if (!to || reduced) return;
-        var fmt = function (n) { return n >= 1000 ? n.toLocaleString('fr-FR').replace(/ /g, ' ') : String(n); };
+        var en = document.documentElement.lang === 'en';
+        var fmt = function (n) { return n >= 1000 ? (en ? n.toLocaleString('en-US') : n.toLocaleString('fr-FR').replace(/[\u202f\u00a0]/g, ' ')) : String(n); };
         el.textContent = pre + '0' + suf;
         var io = new IntersectionObserver(function (es) {
             if (!es[es.length - 1].isIntersecting) return;
