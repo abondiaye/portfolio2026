@@ -136,3 +136,39 @@
         });
     }
 })();
+
+/* Icône d'onglet animée : l'étincelle verte tourne et pulse, un point blanc orbite autour (comme la section orbite) */
+(function () {
+    var link = document.getElementById('favicon');
+    if (!link || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var S = 64, cv = document.createElement('canvas'); cv.width = cv.height = S;
+    var ctx = cv.getContext('2d'); if (!ctx) return;
+    var ACC = '#D4FF3A';
+    function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+    function spark(a, s) {
+        ctx.save(); ctx.translate(32, 32); ctx.rotate(a); ctx.scale(s, s);
+        ctx.beginPath(); ctx.moveTo(0, -18);
+        ctx.quadraticCurveTo(2, -2, 18, 0); ctx.quadraticCurveTo(2, 2, 0, 18);
+        ctx.quadraticCurveTo(-2, 2, -18, 0); ctx.quadraticCurveTo(-2, -2, 0, -18);
+        ctx.fillStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 8; ctx.fill(); ctx.restore();
+    }
+    var t0 = performance.now();
+    function draw() {
+        var t = (performance.now() - t0) / 1000;
+        ctx.clearRect(0, 0, S, S);
+        rr(0, 0, S, S, 15); ctx.fillStyle = '#0D0E10'; ctx.fill();
+        // anneau incliné (orbite)
+        ctx.save(); ctx.translate(32, 32); ctx.rotate(-0.35);
+        ctx.beginPath(); ctx.ellipse(0, 0, 25, 11, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(212,255,58,.35)'; ctx.lineWidth = 2; ctx.stroke();
+        var a = t * 2.6, dx = Math.cos(a) * 25, dy = Math.sin(a) * 11, front = Math.sin(a) > 0;
+        ctx.restore();
+        function dot() { ctx.save(); ctx.translate(32, 32); ctx.rotate(-0.35); ctx.beginPath(); ctx.arc(dx, dy, front ? 4.2 : 3, 0, Math.PI * 2); ctx.fillStyle = front ? '#fff' : 'rgba(255,255,255,.45)'; ctx.fill(); ctx.restore(); }
+        if (!front) dot();
+        spark(t * 0.9, 1 + Math.sin(t * 3) * 0.08);
+        if (front) dot();
+        link.href = cv.toDataURL('image/png');
+    }
+    draw();
+    setInterval(draw, 90);
+})();
