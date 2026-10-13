@@ -1,0 +1,10 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
+    # version ajoutée aux fichiers CSS/JS (?v=…) : augmente-la après une modification pour forcer le navigateur à recharger
+    assets:
+        version: '16'
+        version_format: '%%s?v=%%s'

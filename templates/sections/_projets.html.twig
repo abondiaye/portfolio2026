@@ -1,0 +1,54 @@
+{# Réalisations : accordéon façon « services » Flowcraft — pastille numérotée, titre, bouton +/−, l'élément ouvert passe en noir avec un aperçu du projet #}
+<section class="sec paper" id="projets" aria-labelledby="projets-titre">
+    <div class="wrap pj">
+        <div class="pj-head">
+            <p class="eyebrow reveal"><i></i>Réalisations</p>
+            <h2 id="projets-titre" class="sec-title" data-head>Mes <em>projets.</em></h2>
+            <p class="pj-lead reveal">Sites vitrines, plateformes métier et maquettes : du besoin client à la mise en ligne, conçus, développés et déployés par mes soins.</p>
+            <a class="pj-all reveal" href="#contact"><span>Un projet en tête ?</span><i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></i></a>
+        </div>
+
+        <ol class="pj-list" data-acc>
+            {% for p in projects %}
+                {% set open = loop.first %}
+                {% set host = p.url ? p.url|replace({'https://': '', 'http://': '', 'www.': ''})|split('/')|first : 'abdoulaye.ndiaye' %}
+                <li class="pj-item reveal{{ open ? ' is-open' : '' }}">
+                    <h3 class="pj-h">
+                        <button type="button" class="pj-btn" aria-expanded="{{ open ? 'true' : 'false' }}" aria-controls="pj-{{ loop.index }}">
+                            <span class="pj-num f-m">{{ '%02d'|format(loop.index) }}</span>
+                            <span class="pj-title f-d">{{ p.title }}</span>
+                            <span class="pj-pm" aria-hidden="true"><i></i><i></i></span>
+                        </button>
+                    </h3>
+                    <div class="pj-panel" id="pj-{{ loop.index }}" role="region" aria-label="{{ p.title }}">
+                        <div class="pj-panel-in">
+                            <div class="pj-inner">
+                                <figure class="pj-card">
+                                    <figcaption class="pj-card-top">
+                                        <span class="pj-ava" aria-hidden="true"></span>
+                                        <span class="f-m">@{{ host }}</span>
+                                        <span class="pj-dots" aria-hidden="true">···</span>
+                                    </figcaption>
+                                    <div class="pj-shot">
+                                        {% if p.image %}<img src="{{ asset(p.image) }}" alt="{{ p.alt }}" loading="lazy">{% else %}<span class="pj-ph f-d">{{ p.title }}</span>{% endif %}
+                                        <span class="pj-chip f-m"><b></b>{{ p.status }}</span>
+                                        <span class="pj-spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5C12.9 8 16 11.1 22.5 12 16 12.9 12.9 16 12 22.5 11.1 16 8 12.9 1.5 12 8 11.1 11.1 8 12 1.5Z"/></svg></span>
+                                    </div>
+                                    <div class="pj-card-foot">
+                                        <ul class="pj-stack">{% for t in p.stack %}<li class="f-m">{{ t }}</li>{% endfor %}</ul>
+                                    </div>
+                                </figure>
+                                <div class="pj-txt">
+                                    <p>{{ p.text }}</p>
+                                    {% if p.url %}
+                                        <a class="pj-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.urlLabel }} <span aria-hidden="true">↗</span></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>

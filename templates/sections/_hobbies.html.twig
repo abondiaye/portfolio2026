@@ -1,0 +1,58 @@
+{# Hobbies : mur de colonnes parallèles (une par passion) qui défilent toutes seules, en sens alternés,
+   et accélèrent / s'inversent quand on scrolle vers le bas ou vers le haut (comme le mur de posts Flowcraft) #}
+{% set handles = ['younous.cuisine', 'fivetofive', 'younous.repare', 'asso.sif'] %}
+{% set tints = ['#D4FF3A', '#B79CFF', '#7FE0B6', '#FFB86B'] %}
+<section class="sec hob" id="hobbies" aria-labelledby="hobbies-titre">
+    <div class="wrap hob-head">
+        <div>
+            <p class="eyebrow reveal"><i></i>En dehors du code</p>
+            <h2 id="hobbies-titre" class="sec-title" data-head>Mes <em>hobbies.</em></h2>
+        </div>
+        <p class="hob-lead reveal">Cuisine, foot en salle, réparation et bénévolat : ce qui m'occupe quand je ne suis pas derrière un écran. Clique sur une photo pour l'agrandir.</p>
+    </div>
+
+    <div class="hob-wall" data-hobwall style="--n:{{ hobbies|length }}">
+        {% for h in hobbies %}
+            {% set hi = loop.index0 %}
+            {% set reps = (6 / h.photos|length)|round(0, 'ceil') %}
+            <div class="hob-col" data-dir="{{ loop.index is odd ? -1 : 1 }}">
+                <div class="hob-label reveal">
+                    <span class="hob-tag f-m"><b style="background:{{ tints[hi] }}"></b>{{ h.tag }}</span>
+                    <h3 class="f-d">{{ h.title }}</h3>
+                    <p>{{ h.text }}</p>
+                </div>
+                <div class="hob-view">
+                    <div class="hob-track">
+                        {% for k in 0..1 %}
+                            <div class="hob-set"{% if k %} aria-hidden="true"{% endif %}>
+                                {% for r in 1..reps %}
+                                    {% for ph in h.photos %}
+                                        {% set dup = k or r > 1 %}
+                                        <a href="{{ asset(ph.big) }}" class="hob-card" data-lightbox="{{ hi + 1 }}" data-i="{{ loop.index0 }}"{% if dup %} data-dup tabindex="-1"{% endif %}>
+                                            <span class="hob-img" style="--ar:{{ ['4/5','1/1','3/4','5/4','4/5','1/1'][loop.index0 % 6] }}">
+                                                <img src="{{ asset(ph.big) }}" alt="{{ dup ? '' : h.title ~ ' — photo ' ~ loop.index }}" loading="lazy" decoding="async">
+                                                {% if loop.index0 % 3 == 0 %}<span class="hob-count f-m">{{ loop.index }}/{{ h.photos|length }}</span>{% endif %}
+                                            </span>
+                                            <span class="hob-meta">
+                                                <i style="--t:{{ tints[hi] }}">{{ handles[hi]|first|upper }}</i>
+                                                <span>@{{ handles[hi] }}</span>
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
+                                            </span>
+                                        </a>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <dialog class="lightbox" aria-label="Photo agrandie">
+        <img src="" alt="">
+        <button type="button" class="lb-close" aria-label="Fermer">✕</button>
+        <button type="button" class="lb-prev" aria-label="Photo précédente">‹</button>
+        <button type="button" class="lb-next" aria-label="Photo suivante">›</button>
+    </dialog>
+</section>

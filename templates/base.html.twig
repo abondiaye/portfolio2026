@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}N'DIAYE Abdoulaye · Support IT & Développeur Web{% endblock %}</title>
+    <meta name="description" content="{% block description %}Portfolio de N'DIAYE Abdoulaye, technicien support IT N1-N2 à Lyon (10 ans d'expérience) et développeur web fullstack PHP, Symfony et Vue.js.{% endblock %}">
+    <meta name="author" content="N'DIAYE Abdoulaye">
+    <meta name="theme-color" content="#08090A">
+    <meta property="og:title" content="N'DIAYE Abdoulaye · Support IT & Développeur Web">
+    <meta property="og:description" content="Technicien Support IT N1-N2 & Développeur Web PHP / Symfony / Vue.js à Lyon.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:image" content="{{ absolute_url(asset('asset/projets/portfolio.png')) }}">
+    <link rel="icon" href="{{ asset('asset/favicon.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Geist+Mono:wght@300..600&display=swap">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

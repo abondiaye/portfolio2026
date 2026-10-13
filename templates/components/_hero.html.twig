@@ -1,0 +1,105 @@
+{# Section hero « signal » — les données viennent de HomeController #}
+{% macro btn(href, label, kind, icon) %}
+    <a class="rw-btn rw-{{ kind }}" href="{{ href }}" data-mag>
+        <span class="rw-face">
+            <span class="rw-fill" aria-hidden="true"></span>
+            <span class="rw-lbl"><span class="rw-roll"><span class="rw-l1">{{ label }}</span><span class="rw-l2" aria-hidden="true">{{ label }}</span></span></span>
+            <span class="rw-arr" aria-hidden="true">
+                {% for cls in ['rw-a1', 'rw-a2'] %}
+                    <span class="{{ cls }}">
+                        {% if icon == 'mail' %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                        {% endif %}
+                    </span>
+                {% endfor %}
+            </span>
+        </span>
+        <span class="rw-ping" aria-hidden="true"><i class="rw-ping-r"></i><b><span>1</span><span>+1</span></b></span>
+    </a>
+{% endmacro %}
+{% import _self as ui %}
+
+<section class="rw rwh" data-hero
+         data-photo="{{ asset(hero.photo) }}"
+         data-chips="{{ hero.chips|json_encode|e('html_attr') }}"
+         data-counter="{{ hero.counterStart }}">
+
+    <div class="rwh-bg" aria-hidden="true">
+        <img class="rwh-img" src="{{ asset(hero.photo) }}" alt="" fetchpriority="high">
+        <canvas class="rwh-cv"></canvas>
+        <i class="rwh-shade"></i>
+    </div>
+
+    <div class="rwh-chips" aria-hidden="true"></div>
+
+    <nav class="rwh-nav rise" aria-label="Navigation principale" style="--d:60ms">
+        <a class="rwh-logo" href="{{ path('home') }}" aria-label="{{ hero.brand }} — accueil">
+            <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="16" r="15" fill="var(--rw-brass)"/>
+                <circle cx="16" cy="16" r="3.4" fill="var(--rw-ink)"/>
+                <path d="M10.2 21.8a8.2 8.2 0 0 1 0-11.6M21.8 10.2a8.2 8.2 0 0 1 0 11.6" fill="none" stroke="var(--rw-ink)" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+            <span class="f-d">{{ hero.brand }}</span>
+        </a>
+        <ul class="rwh-links">
+            {% for link in hero.nav %}
+                <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+            {% endfor %}
+        </ul>
+        {{ ui.btn(hero.navCta.href, hero.navCta.label, 'quiet', 'mail') }}
+    </nav>
+
+    {% if hero.hint %}
+        <p class="rwh-hint f-m rise" style="--d:900ms"><i class="rwh-hint-r" aria-hidden="true"></i>{{ hero.hint }}</p>
+    {% endif %}
+
+    <div class="rwh-in">
+        <div class="rwh-copy">
+            {% if hero.badge %}
+                <p class="rwh-ann f-m rise" style="--d:180ms"><i class="rw-port" aria-hidden="true"></i>{{ hero.badge }}</p>
+            {% endif %}
+
+            <h1 class="rwh-h1 f-d" aria-label="{{ hero.headingPlain }}">
+                {% for line in hero.headingLines %}
+                    <span class="rwh-line" aria-hidden="true">
+                        {%- for word in line -%}
+                            <span class="rwh-w"><span class="rwh-wi{{ word.accent ? ' is-acc' }}" style="transition-delay:{{ word.delay }}ms">{{ word.text }}</span></span>{{ not loop.last ? ' ' }}
+                        {%- endfor -%}
+                    </span>
+                {% endfor %}
+            </h1>
+
+            {% if hero.subCopy %}
+                <p class="rwh-sub rise" style="--d:640ms">{{ hero.subCopy }}</p>
+            {% endif %}
+
+            <div class="rwh-btns rise" style="--d:760ms">
+                {{ ui.btn(hero.primary.href, hero.primary.label, 'solid', 'mail') }}
+                {{ ui.btn(hero.secondary.href, hero.secondary.label, 'ghost', 'arrow') }}
+            </div>
+        </div>
+    </div>
+
+    <div class="rwh-strip rise" style="--d:900ms">
+        <div class="rwh-count">
+            <p class="rwh-count-l f-m"><i class="rwh-live" aria-hidden="true"></i>{{ hero.counterLabel }}</p>
+            <p class="rwh-count-n f-d" data-count>{{ hero.counterStart|number_format(0, ',', ' ') }}</p>
+        </div>
+        <ul class="rwh-tags f-m">
+            {% for s in hero.services %}
+                <li><span>{{ '%02d'|format(loop.index) }}</span>{{ s }}</li>
+            {% endfor %}
+        </ul>
+        <p class="rwh-proof f-m">
+            {% if hero.proofTop %}<b class="rwh-proof-t">{{ hero.proofTop }}</b>{% endif %}
+            {% if hero.proofBottom %}<span class="rwh-dim">{{ hero.proofBottom }}</span>{% endif %}
+        </p>
+    </div>
+
+    <div class="rwh-cur" data-m="out" aria-hidden="true">
+        <i class="rwh-cur-r"><b class="f-m">{{ hero.cursorLabel }}</b></i>
+        <i class="rwh-cur-d"></i>
+    </div>
+</section>

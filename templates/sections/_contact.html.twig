@@ -1,0 +1,45 @@
+<section class="sec contact" id="contact" aria-labelledby="contact-titre">
+    <div class="wrap contact-grid">
+        <div>
+            <p class="eyebrow reveal"><i></i>Contact</p>
+            <h2 id="contact-titre" class="sec-title" data-head>Me <em>contacter.</em></h2>
+            <p class="lead reveal">N'hésitez pas à me contacter, je suis à votre disposition pour plus d'informations.</p>
+
+            <div class="card-contact reveal">
+                <p class="cc-name">{{ contact.name }}</p>
+                <p class="cc-role">Support IT · Développeur web</p>
+                <a href="tel:{{ contact.phoneLink }}">{{ contact.phone }}</a>
+                <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                <div class="cc-actions">
+                    <a class="chip-btn" href="{{ asset(contact.vcard) }}" download>Enregistrer le contact</a>
+                    <a class="chip-btn" href="{{ asset(contact.cv) }}" download>Télécharger le CV</a>
+                </div>
+            </div>
+
+            <ul class="links reveal">
+                {% for l in links %}
+                    <li><a href="{{ l.href }}" target="_blank" rel="noopener">{{ l.label }} <span aria-hidden="true">↗</span></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <form class="form reveal" id="contact-form" data-endpoint="https://formsubmit.co/ajax/{{ contact.email }}" novalidate>
+            <label>Votre adresse mail
+                <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>Votre message
+                <textarea name="message" rows="7" required></textarea>
+            </label>
+            <label class="check">
+                <input type="checkbox" name="demande_cv" value="oui">
+                Je souhaite recevoir le CV par mail
+            </label>
+            {# Anti-spam : champ invisible que seuls les robots remplissent #}
+            <div class="honeypot" aria-hidden="true">
+                <label>Ne pas remplir <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <button type="submit" class="send">Envoyer</button>
+            <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</section>

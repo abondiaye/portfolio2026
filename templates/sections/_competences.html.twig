@@ -1,0 +1,67 @@
+<section class="sec" id="competences" aria-labelledby="competences-titre">
+    <div class="wrap about">
+        {# Photo en « avant / après » (comme le comparateur Flowcraft) : à gauche Support IT en noir et blanc, à droite Développeur web en couleur #}
+        <div class="about-photo ba reveal" data-ba style="--p:50%">
+            <div class="ba-side ba-a"><img src="{{ asset(about.photo) }}" alt="" aria-hidden="true" loading="lazy"></div>
+            <div class="ba-side ba-b"><img src="{{ asset(about.photo) }}" alt="Photo de N'DIAYE Abdoulaye" loading="lazy"></div>
+            <span class="ba-chip f-m"><b></b>N'DIAYE Abdoulaye · {{ "now"|date("Y") }}</span>
+            <span class="ba-tag ba-tag-a f-m">Support IT</span>
+            <span class="ba-tag ba-tag-b f-m">Développeur web</span>
+            <span class="ba-line" aria-hidden="true"></span>
+            <button type="button" class="ba-handle" role="slider" aria-label="Comparer Support IT et Développeur web" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg>
+            </button>
+        </div>
+        <div class="about-txt">
+            <p class="eyebrow reveal"><i></i>Qui suis-je</p>
+            <h2 id="competences-titre" class="sec-title" data-head>Double compétence,<br><em>un seul interlocuteur.</em></h2>
+            <p class="lead reveal">{{ hero.subCopy }}</p>
+            <p class="reveal">{{ about.intro }}</p>
+            <ul class="stats reveal">
+                {% for s in about.stats %}
+                    <li><b>{{ s.value }}</b><span>{{ s.label }}</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {# Tableau de compétences : panneau vert, colonnes, cartes sombres qui tombent en place (comme « Same week, different job ») #}
+    <div class="wrap board-wrap">
+        <div class="board-head">
+            <h3 class="board-title f-d" data-head>Deux métiers.<br><em>Une boîte à outils.</em></h3>
+            <div class="board-count reveal">
+                <b class="f-d"><span data-countup="{{ about.skillCount }}">0</span></b>
+                <span>compétences utilisées en mission</span>
+                <i class="board-bar"><i></i></i>
+            </div>
+        </div>
+        <div class="board" data-board style="--cols:{{ about.skills|length }}">
+            <p class="board-tag f-m">N'DIAYE · BOÎTE À OUTILS</p>
+            <div class="board-grid">
+                {% for group, items in about.skills %}
+                    <div class="board-col">
+                        <p class="board-col-h f-m">{{ group }}</p>
+                        <ul>
+                            {% for item in items %}
+                                <li class="board-card" style="--i:{{ loop.index0 }};--c:{{ loop.parent.loop.index0 }}">
+                                    <b>{{ item }}</b><span class="f-m">{{ group|lower }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Qualités : double bandeau géant (comme le pied de page Flowcraft) — ligne contour + ligne pleine, sens opposés #}
+    <div class="mq" data-mq aria-label="Qualités : {{ about.qualities|join(', ') }}">
+        {% for row in [about.qualities, about.qualities|reverse] %}
+            <div class="mq-row {{ loop.first ? 'mq-outline' : 'mq-solid' }}" aria-hidden="true">
+                <div class="mq-track">
+                    {% for k in 0..1 %}<div class="mq-set">{% for q in row %}<span class="mq-item f-d">{{ q }}</span><svg class="mq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5C12.9 8 16 11.1 22.5 12 16 12.9 12.9 16 12 22.5 11.1 16 8 12.9 1.5 12 8 11.1 11.1 8 12 1.5Z"/></svg>{% endfor %}</div>{% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

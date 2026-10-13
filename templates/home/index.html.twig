@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/hero.css') }}">
+    {% if heroStyle == 'orb' %}<link rel="stylesheet" href="{{ asset('css/hero-orb.css') }}">{% endif %}
+    <link rel="stylesheet" href="{{ asset('css/site.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/anim.css') }}">
+{% endblock %}
+
+{% block body %}
+    {# Style de l'accueil : PortfolioData::HERO_STYLE ('orb' ou 'signal') #}
+    {% if heroStyle == 'orb' %}
+        {{ include('components/_hero_orb.html.twig', { orb: orb }) }}
+    {% else %}
+        {{ include('components/_hero.html.twig', { hero: hero }) }}
+    {% endif %}
+
+    <main>
+        {{ include('sections/_manifeste.html.twig') }}
+        {{ include('sections/_competences.html.twig') }}
+        {{ include('sections/_orbite.html.twig') }}
+        {{ include('sections/_projets.html.twig') }}
+        {{ include('sections/_parcours.html.twig') }}
+        {{ include('sections/_hobbies.html.twig') }}
+        {{ include('sections/_cta.html.twig') }}
+        {{ include('sections/_contact.html.twig') }}
+    </main>
+
+    {{ include('sections/_footer.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {% if heroStyle == 'orb' %}
+        <script src="{{ asset('js/hero-orb.js') }}" defer></script>
+    {% else %}
+        <script src="{{ asset('js/hero.js') }}" defer></script>
+    {% endif %}
+    <script src="{{ asset('js/site.js') }}" defer></script>
+    <script src="{{ asset('js/anim.js') }}" defer></script>
+{% endblock %}

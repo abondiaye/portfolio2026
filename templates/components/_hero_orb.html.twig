@@ -1,0 +1,87 @@
+{# Accueil « orb » : sphère de particules qui change de forme au clic. Données : PortfolioData::heroOrb() #}
+{% macro btn(href, label, kind, arrow) %}
+    <a class="fc-btn fc-{{ kind }}{{ arrow ? '' : ' fc-noarr' }}" href="{{ href }}" data-mag data-cur="Go">
+        <span class="fc-cap">
+            <span class="fc-lbl"><span class="fc-l1">{{ label }}</span><span class="fc-l2" aria-hidden="true">{{ label }}</span></span>
+            {% if arrow %}
+                <span class="fc-arr" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            {% endif %}
+        </span>
+    </a>
+{% endmacro %}
+{% macro head(words, cls) %}
+    <span class="fc-hd {{ cls }}" aria-hidden="true"><span class="fc-hd-l">
+        {%- for w in words -%}
+            <span class="fc-hd-w{{ w.accent ? ' is-accw' }}"><span class="fc-hd-i{{ w.accent ? ' is-acc' }}" style="transition-delay:{{ w.delay }}ms;--pd:{{ w.delay + 500 }}ms">
+                {%- if w.accent -%}
+                    <span class="fc-it">{{ w.text }}<svg class="fc-spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5C12.9 8 16 11.1 22.5 12 16 12.9 12.9 16 12 22.5 11.1 16 8 12.9 1.5 12 8 11.1 11.1 8 12 1.5Z"/></svg></span>
+                {%- else -%}
+                    {{ w.text }}
+                {%- endif -%}
+            </span>{{ ' ' }}</span>
+        {%- endfor -%}
+    </span></span>
+{% endmacro %}
+{% import _self as ui %}
+
+<section class="fc fch fc-dark" data-orb aria-label="{{ orb.headingPlain }}">
+    <div class="fch-bg" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="grid"></i></div>
+
+    <nav class="fch-nav rise" aria-label="Navigation principale">
+        <a class="fch-logo f-d" href="{{ path('home') }}">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 1.5C12.9 8 16 11.1 22.5 12 16 12.9 12.9 16 12 22.5 11.1 16 8 12.9 1.5 12 8 11.1 11.1 8 12 1.5Z"/></svg>
+            {{ orb.brand }}
+        </a>
+        <ul class="fch-links">
+            {% for l in orb.nav %}<li><a href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}
+        </ul>
+        <span class="fch-navcta">{{ ui.btn(asset(orb.navCta.href), orb.navCta.label, 'ghost', false) }}</span>
+    </nav>
+
+    <div class="fch-stage">
+        <div class="fch-top rise" style="--d:100ms">
+            {% if orb.live %}<p class="fch-live f-m"><i aria-hidden="true"></i>{{ orb.live }}</p>{% endif %}
+            {% if orb.eyebrow %}<p class="fc-eb f-m"><i aria-hidden="true"></i>{{ orb.eyebrow }}</p>{% endif %}
+        </div>
+
+        <h1 class="fch-h f-d" aria-label="{{ orb.headingPlain }}">
+            {{ ui.head(orb.h1, 'fch-h1') }}
+            {{ ui.head(orb.h2, 'fch-h2') }}
+        </h1>
+
+        <div class="fch-orb" data-cur="{{ orb.cursorLabel }}" role="button" tabindex="0"
+             aria-label="Changer la forme, actuellement : {{ orb.shapes|first }}"
+             data-shapes="{{ orb.shapes|json_encode|e('html_attr') }}">
+            <canvas aria-hidden="true"></canvas>
+            <span class="fch-halo" aria-hidden="true"></span>
+            <span class="fch-shape f-m" aria-hidden="true">
+                {% for s in orb.shapes %}<b class="{{ loop.first ? 'is-on' }}">{{ s }}</b>{% endfor %}
+            </span>
+        </div>
+
+        <ul class="fch-chips" aria-label="Quelques réalisations">
+            {% for c in orb.chips %}
+                <li class="fch-chip{{ loop.first ? ' is-hot' }}" style="--i:{{ loop.index0 }};transition-delay:{{ 1100 + loop.index0 * 120 }}ms">
+                    <i aria-hidden="true"></i><b>{{ c.a }}</b><span class="f-m">{{ c.b }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="fch-foot">
+            <div class="fch-left rise" style="--d:820ms">
+                <p class="fch-sub">{{ orb.subCopy }}</p>
+                <div class="fch-ctas">
+                    {{ ui.btn(orb.primary.href, orb.primary.label, 'solid', true) }}
+                    {{ ui.btn(orb.secondary.href, orb.secondary.label, 'ghost', false) }}
+                </div>
+            </div>
+            <dl class="fch-stats rise" style="--d:980ms">
+                {% for s in orb.stats %}
+                    <div><dt class="f-d">{{ s.a }}</dt><dd>{{ s.b }}</dd></div>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+
+    <div class="fch-cur" aria-hidden="true"></div>
+</section>

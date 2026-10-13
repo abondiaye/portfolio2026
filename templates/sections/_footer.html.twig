@@ -1,0 +1,22 @@
+<footer class="foot">
+    <div class="wrap foot-in">
+        <p>© {{ 'now'|date('Y') }} {{ contact.name }} · Lyon</p>
+        <p>
+            <a href="https://geniuspro360.com" target="_blank" rel="noopener">Mon activité freelance : geniuspro360.com</a>
+            · <button type="button" class="link-btn" data-open="mentions">Mentions légales</button>
+        </p>
+    </div>
+
+    <dialog id="mentions" class="modal" aria-labelledby="mentions-titre">
+        <h2 id="mentions-titre">Mentions légales</h2>
+        <h3>Éditeur</h3>
+        <p>Abdoulaye N'DIAYE, Lyon. Contact : {{ contact.email }}</p>
+        <h3>Hébergement</h3>
+        <p>Infomaniak Network SA, Rue Eugène-Marziano 25, 1227 Les Acacias (GE), Suisse.</p>
+        <h3>Données personnelles</h3>
+        <p>Le formulaire de contact transmet votre adresse e-mail et votre message via le service FormSubmit, uniquement pour vous répondre. Ce site n'utilise aucun cookie de suivi ni outil de mesure d'audience.</p>
+        <h3>Contenus</h3>
+        <p>Textes et photos : © Abdoulaye N'DIAYE. Logos des technologies : propriété de leurs auteurs.</p>
+        <form method="dialog"><button class="send">Fermer</button></form>
+    </dialog>
+</footer>

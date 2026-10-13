@@ -1,0 +1,48 @@
+<section class="sec paper" id="parcours" aria-labelledby="parcours-titre">
+    <div class="wrap">
+        <p class="eyebrow reveal"><i></i>Expériences & formations</p>
+        <h2 id="parcours-titre" class="sec-title" data-head>Mon <em>parcours.</em></h2>
+
+        <ul class="stats reveal">
+            <li><b>{{ counts.postes }}</b><span>postes occupés</span></li>
+            <li><b>{{ counts.formations }}</b><span>formations suivies</span></li>
+            <li><b>10 ans</b><span>d'expérience IT</span></li>
+        </ul>
+
+        <div class="filters reveal" role="group" aria-label="Filtrer le parcours">
+            <button type="button" class="filter is-on" data-filter="all" aria-pressed="true">Tout</button>
+            <button type="button" class="filter" data-filter="poste" aria-pressed="false">Postes</button>
+            <button type="button" class="filter" data-filter="formation" aria-pressed="false">Formations</button>
+        </div>
+
+        <ol class="timeline" data-timeline>
+            <li class="tl-rail" aria-hidden="true"><i class="tl-fill"></i></li>
+            {% for t in timeline %}
+                <li class="tl-item reveal" data-type="{{ t.type }}">
+                    <span class="tl-num f-d" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+                    <i class="tl-dot" aria-hidden="true"></i>
+                    <div class="tl-when">
+                        <span class="tl-period">{{ t.period }}</span>
+                        <span class="tl-dur">{{ t.duration }}</span>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-head">
+                            {% if t.logo %}<img src="{{ asset(t.logo) }}" alt="" class="tl-logo" loading="lazy">{% endif %}
+                            <div>
+                                <span class="tl-type">{{ t.type == 'poste' ? 'Poste' : 'Formation' }}</span>
+                                <h3>{{ t.title }}</h3>
+                                <p class="tl-org">{{ t.org }}</p>
+                            </div>
+                        </div>
+                        {% if t.text %}<p>{{ t.text }}</p>{% endif %}
+                        {% if t.items is not empty %}
+                            <ul class="tl-list">
+                                {% for it in t.items %}<li>{{ it }}</li>{% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>

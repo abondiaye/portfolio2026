@@ -1,0 +1,16 @@
+{# Manifeste : le texte s'allume mot par mot au défilement (comme « La plupart des équipes… » du template) #}
+<section class="sec paper mf" id="manifeste" aria-label="{{ manifesto.eyebrow }}">
+    <div class="wrap">
+        <p class="eyebrow reveal"><i></i>{{ manifesto.eyebrow }}</p>
+        <p class="mf-text" data-scrub aria-label="{{ manifesto.plain }}">
+            {%- for t in manifesto.tokens -%}
+                {%- if t.type == 'photo' -%}
+                    <span class="mf-ph" aria-hidden="true"><img src="{{ asset(t.src) }}" alt="" loading="lazy"></span>{{ ' ' }}
+                {%- else -%}
+                    <span class="mf-w{{ t.accent ? ' is-acc' }}" aria-hidden="true">{{ t.text }}</span>{{ ' ' }}
+                {%- endif -%}
+            {%- endfor -%}
+        </p>
+        <p class="mf-sign f-m reveal">— {{ manifesto.signature }}</p>
+    </div>
+</section>

@@ -1,0 +1,29 @@
+{# Orbite : entreprises et projets qui tournent autour d'un noyau lumineux (comme « … agents. Au cœur. ») #}
+{% set tl = clients.title|split('|') %}
+<section class="sec orb2" id="missions" aria-labelledby="missions-titre">
+    <div class="wrap orb2-head">
+        <div>
+            <p class="eyebrow reveal"><i></i>{{ clients.eyebrow }}</p>
+            <h2 id="missions-titre" class="sec-title" data-head>{{ tl|first }}<br><em>{{ tl|last|replace({'*': ''}) }}</em></h2>
+        </div>
+        <p class="orb2-txt reveal">{{ clients.text }}</p>
+    </div>
+    <div class="orb2-stage" data-orbit>
+        <svg class="orb2-rings" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+            <ellipse cx="500" cy="280" rx="250" ry="92"/>
+            <ellipse cx="500" cy="280" rx="380" ry="150"/>
+            <ellipse cx="500" cy="280" rx="490" ry="215"/>
+        </svg>
+        <canvas class="orb2-band is-back" aria-hidden="true"></canvas>
+        <div class="orb2-core" aria-hidden="true"><b></b><i></i><span class="f-m">{{ clients.core }}</span></div>
+        <canvas class="orb2-band is-front" aria-hidden="true"></canvas>
+        <ul class="orb2-list">
+            {% for c in clients.items %}
+                <li class="orb2-item" tabindex="0">
+                    <i></i><b>{{ c.name }}</b><span class="f-m">{{ c.tag }}</span>
+                    <em class="orb2-what f-m">{{ c.what }}</em>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,15 @@
+# Symfony
+/.env
+/.env.local
+/.env.*.local
+/vendor/
+/var/
+
+# macOS
+.DS_Store
+
+# fichiers de travail (hors projet)
+/Claude outputs/
+/folio/
+/RwHero
+/RwHero-GeniusPro360.tsx

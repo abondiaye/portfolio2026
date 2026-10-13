@@ -1,0 +1,15 @@
+{# Appel final : grand bouton rond lumineux au milieu d'un champ de particules (comme « Prêt quand vous l'êtes ») #}
+{% set ct = cta.title|split('|') %}
+<section class="sec cta" aria-labelledby="cta-titre">
+    <canvas class="cta-cv" aria-hidden="true"></canvas>
+    <div class="wrap cta-in">
+        <p class="eyebrow reveal"><i></i>{{ cta.eyebrow }}</p>
+        <h2 id="cta-titre" class="sec-title cta-title" data-head>{{ ct|first }}<br><em>{{ ct|last|replace({'*': ''}) }}</em></h2>
+        <a class="cta-btn reveal" href="#contact" data-mag>
+            <span class="cta-ring" aria-hidden="true"></span>
+            <span class="cta-lbl f-d">{{ cta.button }}</span>
+            <span class="cta-arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </a>
+        <p class="cta-txt reveal">{{ cta.text }}</p>
+    </div>
+</section>
