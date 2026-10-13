@@ -100,7 +100,7 @@ final class PortfolioData
     public static function about(): array
     {
         return [
-            'photo' => 'asset/profil.png',
+            'photo' => 'asset/profil-2026.jpg',
             'intro' => "En freelance, je conçois des sites et applications sur mesure pour les PME avec GeniusPro360°.",
             'stats' => [
                 ['value' => '10 ans', 'label' => 'de support IT'],

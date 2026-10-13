@@ -5,7 +5,12 @@
             <h2 id="contact-titre" class="sec-title" data-head>Me <em>contacter.</em></h2>
             <p class="lead reveal">N'hésitez pas à me contacter, je suis à votre disposition pour plus d'informations.</p>
 
-            <div class="card-contact reveal">
+            <div class="card-contact has-photo reveal">
+                <figure class="cc-photo">
+                    <img src="{{ asset('asset/contact-plage.jpg') }}" alt="N'DIAYE Abdoulaye sur une plage, au bord de la mer" width="360" height="440" loading="lazy">
+                    <figcaption class="f-m"><b></b>Même en pause, je réponds vite</figcaption>
+                </figure>
+                <div class="cc-info">
                 <p class="cc-name">{{ contact.name }}</p>
                 <p class="cc-role">Support IT · Développeur web</p>
                 <a href="tel:{{ contact.phoneLink }}">{{ contact.phone }}</a>
@@ -13,6 +18,7 @@
                 <div class="cc-actions">
                     <a class="chip-btn" href="{{ asset(contact.vcard) }}" download>Enregistrer le contact</a>
                     <a class="chip-btn" href="{{ asset(contact.cv) }}" download>Télécharger le CV</a>
+                </div>
                 </div>
             </div>
 

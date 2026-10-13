@@ -233,10 +233,12 @@
 .about-photo.ba { position: relative; aspect-ratio: 4 / 5; border-radius: 28px; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize; background: #15161A; }
 .about-photo.ba img { -webkit-mask-image: none; mask-image: none; }
 .ba-side { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
-.ba-side img { width: auto !important; height: 94% !important; max-width: 100%; object-fit: contain; object-position: bottom; pointer-events: none; -webkit-user-drag: none; }
+.ba-side img { width: 100% !important; height: 100% !important; object-fit: cover; object-position: 30% 35%; pointer-events: none; -webkit-user-drag: none; }
+.ba-side::after { content: ""; position: absolute; inset: auto 0 0 0; height: 30%; background: linear-gradient(to top, rgba(8,9,10,.55), transparent); pointer-events: none; }
 .ba-a { background: radial-gradient(70% 55% at 50% 40%, #2A2C31, #121316 75%); }
-.ba-a::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 34px 34px; -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 75%); mask-image: radial-gradient(circle at 50% 40%, #000, transparent 75%); }
-.ba-a img { position: relative; filter: grayscale(1) contrast(1.05) brightness(.82); }
+.ba-a::before { content: ""; position: absolute; inset: 0; z-index: 1; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 34px 34px; -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 75%); mask-image: radial-gradient(circle at 50% 40%, #000, transparent 75%); }
+.ba-a img { filter: grayscale(1) contrast(1.12) brightness(.78); }
+.ba-b img { filter: saturate(1.1) contrast(1.05); }
 .ba-b { background: radial-gradient(75% 60% at 50% 38%, color-mix(in srgb, var(--acc) 38%, #F4F4EE), #E6E6DE 72%); clip-path: inset(0 0 0 var(--p)); }
 .ba-line { position: absolute; top: 0; bottom: 0; left: var(--p); width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 18px color-mix(in srgb, var(--acc) 70%, transparent); pointer-events: none; }
 .ba-handle { position: absolute; left: var(--p); top: 64%; display: grid; place-items: center; width: 64px; height: 64px; margin: -32px 0 0 -32px; padding: 0; border: 0; border-radius: 50%; background: var(--acc); color: var(--paper-ink); cursor: ew-resize; box-shadow: 0 10px 30px -8px rgba(0,0,0,.5); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
@@ -285,3 +287,17 @@
     .hob-view { height: 440px; }
 }
 @media (max-width: 480px) { .hob-meta { font-size: 12px; gap: 7px; } .hob-meta i { width: 24px; height: 24px; font-size: 11px; } .hob-view { height: 380px; } .hob-card { padding: 6px; border-radius: 18px; } .hob-img { border-radius: 13px; } }
+
+/* ---------- Contact : carte avec photo ---------- */
+.card-contact.has-photo { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 22px; align-items: center; padding: 16px 22px 16px 16px; }
+.cc-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cc-info a { overflow-wrap: anywhere; }
+.cc-photo { position: relative; margin: 0; aspect-ratio: 360 / 440; border-radius: 16px; overflow: hidden; rotate: -2.5deg; box-shadow: 0 18px 40px -18px rgba(0,0,0,.8), 0 0 0 4px #fff; transition: rotate .6s cubic-bezier(.34,1.56,.64,1), scale .6s cubic-bezier(.34,1.56,.64,1); }
+.card-contact:hover .cc-photo { rotate: 0deg; scale: 1.03; }
+.cc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: scale 1.2s cubic-bezier(.2,.8,.2,1); }
+.card-contact:hover .cc-photo img { scale: 1.06; }
+.cc-photo figcaption { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 999px; font-size: 9.5px; letter-spacing: .02em; line-height: 1.2; color: var(--paper-ink); background: rgba(255,255,255,.88); backdrop-filter: blur(4px); }
+.cc-photo figcaption b { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #2fd36b; box-shadow: 0 0 0 0 rgba(47,211,107,.6); animation: ccOnline 2s ease-out infinite; }
+@keyframes ccOnline { 100% { box-shadow: 0 0 0 7px rgba(47,211,107,0); } }
+@media (max-width: 480px) { .card-contact.has-photo { grid-template-columns: 1fr; } .cc-photo { max-width: 220px; } }
+@media (prefers-reduced-motion: reduce) { .cc-photo figcaption b { animation: none; } }

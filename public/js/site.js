@@ -137,7 +137,8 @@
     }
 })();
 
-/* Icône d'onglet animée : l'étincelle verte tourne et pulse, un point blanc orbite autour (comme la section orbite) */
+/* Icône d'onglet animée : l'étincelle verte tourne et scintille (pulsation lumineuse + petits éclats),
+   un point blanc orbite autour (comme la section orbite) */
 (function () {
     var link = document.getElementById('favicon');
     if (!link || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -145,30 +146,44 @@
     var ctx = cv.getContext('2d'); if (!ctx) return;
     var ACC = '#D4FF3A';
     function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
-    function spark(a, s) {
-        ctx.save(); ctx.translate(32, 32); ctx.rotate(a); ctx.scale(s, s);
+    function star(x, y, a, s, fill, blur) {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.scale(s, s);
         ctx.beginPath(); ctx.moveTo(0, -18);
         ctx.quadraticCurveTo(2, -2, 18, 0); ctx.quadraticCurveTo(2, 2, 0, 18);
         ctx.quadraticCurveTo(-2, 2, -18, 0); ctx.quadraticCurveTo(-2, -2, 0, -18);
-        ctx.fillStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 8; ctx.fill(); ctx.restore();
+        ctx.fillStyle = fill; ctx.shadowColor = ACC; ctx.shadowBlur = blur; ctx.fill(); ctx.restore();
     }
     var t0 = performance.now();
     function draw() {
         var t = (performance.now() - t0) / 1000;
+        // scintillement : un éclat bref toutes les ~1,6 s, et un plus petit entre deux
+        var tw = Math.pow(Math.max(0, Math.sin(t * 3.9)), 10) + 0.45 * Math.pow(Math.max(0, Math.sin(t * 3.9 + 2.2)), 14);
         ctx.clearRect(0, 0, S, S);
         rr(0, 0, S, S, 15); ctx.fillStyle = '#0D0E10'; ctx.fill();
+        // halo vert qui respire derrière l'étincelle
+        var g = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+        g.addColorStop(0, 'rgba(212,255,58,' + (0.18 + tw * 0.4).toFixed(3) + ')'); g.addColorStop(1, 'rgba(212,255,58,0)');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, S, S);
         // anneau incliné (orbite)
         ctx.save(); ctx.translate(32, 32); ctx.rotate(-0.35);
         ctx.beginPath(); ctx.ellipse(0, 0, 25, 11, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(212,255,58,.35)'; ctx.lineWidth = 2; ctx.stroke();
-        var a = t * 2.6, dx = Math.cos(a) * 25, dy = Math.sin(a) * 11, front = Math.sin(a) > 0;
+        ctx.strokeStyle = 'rgba(212,255,58,' + (0.3 + tw * 0.3).toFixed(3) + ')'; ctx.lineWidth = 2; ctx.stroke();
         ctx.restore();
+        var a = t * 2.6, dx = Math.cos(a) * 25, dy = Math.sin(a) * 11, front = Math.sin(a) > 0;
         function dot() { ctx.save(); ctx.translate(32, 32); ctx.rotate(-0.35); ctx.beginPath(); ctx.arc(dx, dy, front ? 4.2 : 3, 0, Math.PI * 2); ctx.fillStyle = front ? '#fff' : 'rgba(255,255,255,.45)'; ctx.fill(); ctx.restore(); }
         if (!front) dot();
-        spark(t * 0.9, 1 + Math.sin(t * 3) * 0.08);
+        // étincelle principale : pulsation + flash blanc au cœur pendant l'éclat
+        var sc = 1 + Math.sin(t * 3) * 0.06 + tw * 0.18;
+        star(32, 32, t * 0.9, sc, ACC, 6 + tw * 16);
+        if (tw > 0.05) star(32, 32, t * 0.9, sc * 0.45, 'rgba(255,255,255,' + Math.min(1, tw * 1.2).toFixed(3) + ')', 0);
+        // petits éclats qui apparaissent autour pendant le scintillement
+        if (tw > 0.08) {
+            star(51, 13, 0.4, 0.22 * tw, '#fff', 4);
+            star(13, 50, -0.3, 0.16 * tw, ACC, 3);
+        }
         if (front) dot();
         link.href = cv.toDataURL('image/png');
     }
     draw();
-    setInterval(draw, 90);
+    setInterval(draw, 70);
 })();
