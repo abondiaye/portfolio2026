@@ -47,10 +47,10 @@
     function gPts(n) {
         var pts = [], cols = [];
         var segs = [
-            { w: 6930, f: function (u) { var a = (-40 - u * 320) * Math.PI / 180; return [60 + 42 * Math.cos(a), 60 + 42 * Math.sin(a), -Math.sin(a), Math.cos(a), 15]; } },
-            { w: 988, f: function (u) { return [102 - 38 * u, 60, 0, 1, 13]; } },
-            { w: 442, f: function (u) { return [76 - 12 * u, 48 + 12 * u, 0.707, 0.707, 13]; } },
-            { w: 442, f: function (u) { return [64 + 12 * u, 60 + 12 * u, -0.707, 0.707, 13]; } },
+            { w: 6930, f: function (u) { var a = (-48 - u * 312) * Math.PI / 180; return [60 + 42 * Math.cos(a), 60 + 42 * Math.sin(a), -Math.sin(a), Math.cos(a), 7]; } },
+            { w: 988, f: function (u) { return [102 - 38 * u, 60, 0, 1, 6]; } },
+            { w: 442, f: function (u) { return [76 - 12 * u, 48 + 12 * u, 0.707, 0.707, 6]; } },
+            { w: 442, f: function (u) { return [64 + 12 * u, 60 + 12 * u, -0.707, 0.707, 6]; } },
             { w: 900, f: function (u) { var a = u * Math.PI * 2; return [114 + 13 * Math.cos(a), 8 + 13 * Math.sin(a), Math.cos(a), Math.sin(a), 2.4]; } } // degré : anneau plus grand, trait fin pour que le trou se voie
         ];
         var tot = segs.reduce(function (s, g) { return s + g.w; }, 0), i = 0;
@@ -63,8 +63,8 @@
                 var h2 = Math.sin(i * 78.233) * 12345.6789; h2 -= Math.floor(h2);
                 var off = (h1 * 2 - 1) * q[4];   // épaisseur du trait, répartie au hasard
                 var px = q[0] + q[2] * off, py = q[1] + q[3] * off;
-                var z = (h2 * 2 - 1) * (si === segs.length - 1 ? 0.03 : 0.22); // relief (épaisseur 3D) ; le degré reste plat pour garder son trou
-                pts.push([(px - 66) / 76, (py - 56) / 76, z]);   // G° plus petit qu'avant (÷76 au lieu de ÷52)
+                var z = (h2 * 2 - 1) * (si === segs.length - 1 ? 0.03 : 0.08); // relief (épaisseur 3D) ; le degré reste plat pour garder son trou
+                pts.push([(px - 66) / 76, (py - 38) / 76, z]);   // G° plus petit qu'avant (÷76 au lieu de ÷52)
                 cols.push(bronzeAt(px, py));
             }
         });
@@ -203,11 +203,15 @@
             if (!vis || document.hidden) return;
             var tgt = S[shape];
             var k = rm ? 1 : 1 - Math.pow(0.02, dt);
-            rot += dt * (rm ? 0 : 0.22); // le G° tourne en 3D comme les autres formes
+            if (shape === 0 && !rm) {
+                // G° : il se remet de face et se balance doucement (±30°) pour qu'on lise bien la lettre
+                var face = Math.round(rot / (Math.PI * 2)) * Math.PI * 2 + Math.sin(now / 1700) * 0.5;
+                rot += (face - rot) * Math.min(1, dt * 1.4);
+            } else rot += dt * (rm ? 0 : 0.22); // les autres formes tournent en continu
             mixG += ((shape === 0 ? 1 : 0) - mixG) * (rm ? 1 : Math.min(1, dt * 1.6));
             lx += (tlx - lx) * 0.06; ly += (tly - ly) * 0.06;
             var scat = rm ? 0 : clamp01(window.scrollY / ((window.innerHeight || 1) * 0.9));
-            var ay = rot + lx * 0.9, ax = -0.35 + ly * 0.6;
+            var ay = rot + lx * 0.9, ax = -0.35 * (1 - mixG) - 0.06 * mixG + ly * 0.6; // le G° reste presque droit pour être lisible
             var ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax);
             var R = Math.min(W, H) * 0.33, cxs = W / 2, cys = H / 2, rr = R * 0.36;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -231,7 +235,7 @@
                 } else glow[i] *= 0.94;
                 var depth = clamp01((1 - z2) / 2);
                 var a = (0.22 + depth * 0.72 + glow[i] * 0.5) * (1 - scat * 0.75);
-                var s = (1 + depth * 1.9 + glow[i] * 1.4) * (ph ? 0.8 : 1) * (1 + mixG * 1.2); // points plus gros sur le G°
+                var s = (1 + depth * 1.9 + glow[i] * 1.4) * (ph ? 0.8 : 1) * (1 + mixG * 0.2); // points à peine plus gros sur le G° (trait fin et lisible)
                 if (false) { // (ancien mélange bronze désactivé : le G° prend la couleur d'accent comme les autres formes)
                     // mélange progressif entre l'accent du site et le bronze du G°
                     var bc = G.cols[i], hi = glow[i] > 0.15 || i % 9 === 0;
