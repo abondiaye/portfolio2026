@@ -44,7 +44,7 @@
                         <ul>
                             {% for item in items %}
                                 <li class="board-card" style="--i:{{ loop.index0 }};--c:{{ loop.parent.loop.index0 }}">
-                                    <b>{{ item }}</b><span class="f-m">{{ group|lower }}</span>
+                                    <b>{{ item }}</b><span class="f-m">{{ locale == 'en' ? group : group|lower }}</span>
                                 </li>
                             {% endfor %}
                         </ul>
