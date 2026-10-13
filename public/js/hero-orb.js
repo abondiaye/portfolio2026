@@ -31,7 +31,7 @@
     }
 
     // ---- le G° de GeniusPro360 (même tracé que geniuspro360-mark.svg, viewBox 120×120) ----
-    // arc du G (r 42, trait 9), barre + chevron (trait 8), anneau du degré (r 7, trait 4)
+    // arc du G (r 42, trait 9), barre + chevron (trait 8), anneau du degré agrandi (r 11, trait fin)
     var G_STOPS = [[0, [107, 68, 36]], [0.28, [200, 137, 74]], [0.42, [246, 214, 162]], [0.55, [184, 122, 62]], [0.8, [122, 75, 37]], [1, [74, 44, 22]]];
     function bronzeAt(px, py) {
         // même dégradé que le SVG : de (8,8) à (112,112)
@@ -51,7 +51,7 @@
             { w: 988, f: function (u) { return [102 - 38 * u, 60, 0, 1, 13]; } },
             { w: 442, f: function (u) { return [76 - 12 * u, 48 + 12 * u, 0.707, 0.707, 13]; } },
             { w: 442, f: function (u) { return [64 + 12 * u, 60 + 12 * u, -0.707, 0.707, 13]; } },
-            { w: 572, f: function (u) { var a = u * Math.PI * 2; return [104 + 7 * Math.cos(a), 16 + 7 * Math.sin(a), Math.cos(a), Math.sin(a), 6.5]; } }
+            { w: 900, f: function (u) { var a = u * Math.PI * 2; return [114 + 13 * Math.cos(a), 8 + 13 * Math.sin(a), Math.cos(a), Math.sin(a), 2.4]; } } // degré : anneau plus grand, trait fin pour que le trou se voie
         ];
         var tot = segs.reduce(function (s, g) { return s + g.w; }, 0), i = 0;
         segs.forEach(function (g, si) {
@@ -63,8 +63,8 @@
                 var h2 = Math.sin(i * 78.233) * 12345.6789; h2 -= Math.floor(h2);
                 var off = (h1 * 2 - 1) * q[4];   // épaisseur du trait, répartie au hasard
                 var px = q[0] + q[2] * off, py = q[1] + q[3] * off;
-                var z = (h2 * 2 - 1) * 0.22;     // relief (épaisseur 3D)
-                pts.push([(px - 60) / 52, (py - 62) / 52, z]);
+                var z = (h2 * 2 - 1) * (si === segs.length - 1 ? 0.03 : 0.22); // relief (épaisseur 3D) ; le degré reste plat pour garder son trou
+                pts.push([(px - 66) / 76, (py - 56) / 76, z]);   // G° plus petit qu'avant (÷76 au lieu de ÷52)
                 cols.push(bronzeAt(px, py));
             }
         });
