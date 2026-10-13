@@ -123,15 +123,21 @@
                     _subject: cv ? 'Portfolio : demande de CV' : 'Portfolio : nouveau message',
                     _template: 'table'
                 })
-            }).then(function (r) { return r.json(); }).then(function (data) {
+            }).then(function (r) { return r.json().catch(function () { return { success: false, message: 'HTTP ' + r.status }; }); }).then(function (data) {
                 if (data && (data.success === true || data.success === 'true')) {
                     form.reset();
                     say('Merci, votre message est bien parti. Je vous réponds rapidement.', 'ok');
                 } else {
-                    throw new Error('fail');
+                    // FormSubmit renvoie la raison (ex. : formulaire pas encore activé) : on la garde pour la console
+                    if (window.console) console.warn('FormSubmit :', data && data.message);
+                    var activation = data && /activat/i.test(data.message || '');
+                    throw new Error(activation ? 'activation' : 'fail');
                 }
-            }).catch(function () {
-                say('L\'envoi n\'a pas fonctionné. Écrivez-moi directement à a_ndiaye@outlook.com.', 'err');
+            }).catch(function (err) {
+                var mail = (form.dataset.endpoint || '').split('/').pop();
+                say(err && err.message === 'activation'
+                    ? 'Le formulaire est en cours d\'activation. En attendant, écrivez-moi directement à ' + mail + '.'
+                    : 'L\'envoi n\'a pas fonctionné. Écrivez-moi directement à ' + mail + '.', 'err');
             }).finally(function () { btn.disabled = false; });
         });
     }
