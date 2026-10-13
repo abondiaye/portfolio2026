@@ -322,13 +322,11 @@
 .sec.paper.is-night .timeline { max-width: 700px; }
 .pc-scene { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .pc-stick { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; justify-content: flex-end; padding-right: max(2vw, calc((100vw - 1320px) / 2)); }
-.pc-svg { width: min(34vw, 520px); height: auto; max-height: 92vh; overflow: visible; }
-.pc-step-glow { fill: none; stroke: var(--acc); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; opacity: .55; filter: url(#pcGlow); }
-.pc-step { fill: none; stroke: #F4FFD0; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.pc-limb { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.pc-man { filter: drop-shadow(0 0 6px rgba(212,255,58,.9)) drop-shadow(0 0 18px rgba(212,255,58,.45)); }
-.pc-head { fill: url(#pcHatch); stroke: var(--acc); stroke-width: 3; }
-.pc-pen { fill: var(--acc); filter: drop-shadow(0 0 8px var(--acc)); }
+.pc-svg { width: min(34vw, 500px); height: auto; max-height: 86vh; }
+.pc-tread { fill: var(--acc); opacity: .85; }
+.pc-box-core { fill: #fff; }
+.pc-box-glow { fill: var(--acc); opacity: .9; }
+.pc-stairs { filter: drop-shadow(0 0 10px rgba(212,255,58,.25)); }
 @media (max-width: 960px) {
     .pc-stick { justify-content: center; padding: 0; opacity: .32; }
     .pc-svg { width: 92vw; }
