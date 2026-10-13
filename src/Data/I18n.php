@@ -99,18 +99,18 @@ final class I18n
         }
 
         return array_merge($fr, [
-            'htmlTitle' => "Abdoulaye N'DIAYE · IT Support & Web Developer",
-            'metaDesc' => "Portfolio of Abdoulaye N'DIAYE, Tier 1-2 IT support technician in Lyon, France (10+ years of experience) and full-stack web developer (PHP, Symfony, Vue.js).",
-            'ogDesc' => 'Tier 1-2 IT Support Technician & PHP / Symfony / Vue.js Web Developer in Lyon, France.',
+            'htmlTitle' => "Abdoulaye N'DIAYE · IT Technician & Web Developer",
+            'metaDesc' => "Portfolio of Abdoulaye N'DIAYE, IT technician in Lyon, France (10+ years of Tier 1-2 support) and full-stack web developer (PHP, Symfony, Vue.js).",
+            'ogDesc' => 'IT Technician & PHP / Symfony / Vue.js Web Developer in Lyon, France.',
             'ogLocale' => 'en_GB',
             'langLabel' => 'Change language',
             'navAria' => 'Main navigation',
             'orbAria' => 'Change the shape, currently:',
             'chipsAria' => 'Selected work',
             'photoAlt' => "Photo of Abdoulaye N'DIAYE",
-            'baA' => 'IT Support',
+            'baA' => 'IT Technician',
             'baB' => 'Web developer',
-            'baAria' => 'Compare IT Support and Web developer',
+            'baAria' => 'Compare IT Technician and Web developer',
             'aboutEyebrow' => 'About me',
             'aboutTitle' => 'Two skill sets,<br><em>one point of contact.</em>',
             'boardTitle' => 'Two trades.<br><em>One toolbox.</em>',
@@ -146,7 +146,7 @@ final class I18n
             'ctLead' => "Feel free to reach out, I'm happy to tell you more.",
             'ctPhotoAlt' => "Abdoulaye N'DIAYE on a beach, by the sea",
             'ctCaption' => 'Even on a break, I reply fast',
-            'ctRole' => 'IT Support · Web developer',
+            'ctRole' => 'IT Technician · Web developer',
             'ctSave' => 'Save contact',
             'ctCv' => 'Download CV',
             'waHello' => "Hello Abdoulaye, I'm contacting you from your portfolio.",
@@ -181,8 +181,8 @@ final class I18n
             case 'heroOrb':
                 return array_replace($fr, [
                     'live' => 'Lyon, France · Open to freelance work',
-                    'eyebrow' => 'IT Support & Web Developer',
-                    'heading1' => 'IT Support &',
+                    'eyebrow' => 'IT Technician & Web Developer',
+                    'heading1' => 'IT Technician &',
                     'heading2' => 'web *developer.*',
                     'subCopy' => '10+ years of Tier 1-2 user support (GLPI, ITIL, ServiceNow, Active Directory) and custom websites built with PHP, Symfony and Vue.js.',
                     'primary' => ['label' => 'Contact me', 'href' => '#contact'],
@@ -206,7 +206,7 @@ final class I18n
             case 'hero':
                 return array_replace($fr, [
                     'badge' => 'Lyon, France · Open to freelance work',
-                    'heading' => 'IT Support|*& web developer.*',
+                    'heading' => 'IT Technician|*& web developer.*',
                     'subCopy' => '10+ years of experience in user support (GLPI, ITIL, ServiceNow), Active Directory and Windows deployment, combined with full-stack web development skills: PHP, Symfony, Vue.js.',
                     'primary' => ['label' => 'Contact me', 'href' => '#contact'],
                     'secondary' => ['label' => 'See my projects', 'href' => '#projets'],
