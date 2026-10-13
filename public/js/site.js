@@ -102,6 +102,15 @@
     if (form) {
         var msg = form.querySelector('.form-msg'), btn = form.querySelector('.send');
         var say = function (text, cls) { msg.textContent = text; msg.className = 'form-msg ' + (cls || ''); };
+        // WhatsApp : ouvre la conversation avec le message déjà écrit dans le formulaire
+        var waBtn = form.querySelector('[data-wa]');
+        var openWa = function () {
+            var txt = 'Bonjour Abdoulaye, je vous contacte depuis votre portfolio.';
+            if (form.message.value.trim()) txt += '\n\n' + form.message.value.trim();
+            if (form.email.value.trim()) txt += '\n\nMon mail : ' + form.email.value.trim();
+            if (form.demande_cv.checked) txt += '\n\nJe souhaite recevoir votre CV.';
+            window.open('https://wa.me/' + waBtn.dataset.wa + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+        };
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (form._honey.value) return; // robot
@@ -110,6 +119,7 @@
                 form.reportValidity();
                 return;
             }
+            if (waBtn) openWa();   // WhatsApp s'ouvre tout de suite (pendant le clic, sinon le navigateur bloque la fenêtre)
             btn.disabled = true;
             say('Envoi en cours…');
             var cv = form.demande_cv.checked;
@@ -126,7 +136,7 @@
             }).then(function (r) { return r.json().catch(function () { return { success: false, message: 'HTTP ' + r.status }; }); }).then(function (data) {
                 if (data && (data.success === true || data.success === 'true')) {
                     form.reset();
-                    say('Merci, votre message est bien parti. Je vous réponds rapidement.', 'ok');
+                    say('Merci, votre message est bien parti par mail. Validez aussi l\'envoi dans WhatsApp. Je vous réponds rapidement.', 'ok');
                 } else {
                     // FormSubmit renvoie la raison (ex. : formulaire pas encore activé) : on la garde pour la console
                     if (window.console) console.warn('FormSubmit :', data && data.message);
@@ -138,6 +148,7 @@
                 say(err && err.message === 'activation'
                     ? 'Le formulaire est en cours d\'activation. En attendant, écrivez-moi directement à ' + mail + '.'
                     : 'L\'envoi n\'a pas fonctionné. Écrivez-moi directement à ' + mail + '.', 'err');
+                if (waBtn) msg.textContent += ' Votre message est quand même prêt dans WhatsApp.';
             }).finally(function () { btn.disabled = false; });
         });
     }

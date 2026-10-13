@@ -18,6 +18,7 @@
                 <div class="cc-actions">
                     <a class="chip-btn" href="{{ asset(contact.vcard) }}" download>Enregistrer le contact</a>
                     <a class="chip-btn" href="{{ asset(contact.cv) }}" download>Télécharger le CV</a>
+                    <a class="chip-btn chip-wa" href="https://wa.me/{{ contact.phoneLink|replace({'+': ''}) }}?text={{ 'Bonjour Abdoulaye, je vous contacte depuis votre portfolio.'|url_encode }}" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.07.89.9-3-.2-.31a8.2 8.2 0 1 1 6.85 3.74Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48a.92.92 0 0 0-.66.31 2.8 2.8 0 0 0-.87 2.07 4.86 4.86 0 0 0 1.02 2.58c.12.16 1.76 2.7 4.28 3.78 1.6.69 2.22.75 3.02.63.49-.07 1.46-.6 1.67-1.18.2-.58.2-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg> WhatsApp</a>
                 </div>
                 </div>
             </div>
@@ -44,7 +45,9 @@
             <div class="honeypot" aria-hidden="true">
                 <label>Ne pas remplir <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>
             </div>
-            <button type="submit" class="send">Envoyer</button>
+            {# un seul bouton : le message part par mail (FormSubmit) ET WhatsApp s'ouvre avec le même message #}
+            <button type="submit" class="send" data-wa="{{ contact.phoneLink|replace({'+': ''}) }}">Envoyer <span class="send-sub">par mail + WhatsApp</span></button>
+            <p class="send-note">Envoyé à {{ contact.email }} et sur WhatsApp au {{ contact.phone }}.</p>
             <p class="form-msg" role="status" aria-live="polite"></p>
         </form>
     </div>
