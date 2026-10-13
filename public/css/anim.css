@@ -303,3 +303,34 @@
 @keyframes ccOnline { 100% { box-shadow: 0 0 0 7px rgba(47,211,107,0); } }
 @media (max-width: 480px) { .card-contact.has-photo { grid-template-columns: 1fr; } .cc-photo { max-width: 220px; } }
 @media (prefers-reduced-motion: reduce) { .cc-photo figcaption b { animation: none; } }
+
+/* ---------- Parcours de nuit : escalier néon + personnage qui monte ---------- */
+.sec.paper.is-night { position: relative; background: radial-gradient(70% 60% at 80% 35%, color-mix(in srgb, var(--acc) 7%, transparent), transparent 70%), #0B0C0E; color: #fff; overflow: clip; }
+.sec.paper.is-night .eyebrow { color: #fff; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+.sec.paper.is-night .sec-title { color: #fff; }
+.sec.paper.is-night .hd-it { background: linear-gradient(100deg, #fff 10%, var(--acc) 90%); -webkit-background-clip: text; background-clip: text; }
+.sec.paper.is-night .stats b, .sec.paper.is-night .tl-period { color: #fff; }
+.sec.paper.is-night .stats span, .sec.paper.is-night .tl-dur { color: rgba(255,255,255,.55); }
+.sec.paper.is-night .filter { color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); background: transparent; }
+.sec.paper.is-night .filter.is-on { color: var(--paper-ink); background: var(--acc); box-shadow: none; }
+.sec.paper.is-night .tl-rail { background: rgba(255,255,255,.12); }
+.sec.paper.is-night .tl-dot { background: #0B0C0E; box-shadow: inset 0 0 0 2px rgba(255,255,255,.35); }
+.sec.paper.is-night .tl-item.is-past .tl-dot { background: var(--acc); }
+.sec.paper.is-night .tl-num { -webkit-text-stroke-color: rgba(255,255,255,.12); }
+.sec.paper.is-night .tl-item.is-past .tl-num { -webkit-text-stroke-color: rgba(212,255,58,.35); }
+.sec.paper.is-night .wrap { position: relative; z-index: 1; }
+.sec.paper.is-night .timeline { max-width: 700px; }
+.pc-scene { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.pc-stick { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; justify-content: flex-end; padding-right: max(2vw, calc((100vw - 1320px) / 2)); }
+.pc-svg { width: min(34vw, 520px); height: auto; max-height: 92vh; overflow: visible; }
+.pc-step-glow { fill: none; stroke: var(--acc); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; opacity: .55; filter: url(#pcGlow); }
+.pc-step { fill: none; stroke: #F4FFD0; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.pc-limb { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.pc-man { filter: drop-shadow(0 0 6px rgba(212,255,58,.9)) drop-shadow(0 0 18px rgba(212,255,58,.45)); }
+.pc-head { fill: url(#pcHatch); stroke: var(--acc); stroke-width: 3; }
+.pc-pen { fill: var(--acc); filter: drop-shadow(0 0 8px var(--acc)); }
+@media (max-width: 960px) {
+    .pc-stick { justify-content: center; padding: 0; opacity: .32; }
+    .pc-svg { width: 92vw; }
+    .sec.paper.is-night .timeline { max-width: none; }
+}

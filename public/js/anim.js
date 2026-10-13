@@ -432,3 +432,80 @@
         io.observe(el);
     });
 })();
+
+/* Parcours : escalier dessiné au fil du scroll ; le personnage monte en descendant la page et redescend en remontant */
+(function () {
+    var svg = document.querySelector('[data-stairs]');
+    if (!svg) return;
+    var sec = svg.closest('section');
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // escalier légèrement « fait main » (petites irrégularités comme un trait de feutre)
+    var pts = [[30, 660], [170, 662]], x = 170, y = 662, steps = 6;
+    for (var i = 0; i < steps; i++) {
+        var up = 78 + (i % 2 ? 4 : -3), run = 66 + (i % 3) * 3;
+        y -= up; pts.push([x + (i % 2 ? 2 : -1), y]);
+        x += run; pts.push([x, y + (i % 2 ? -2 : 1)]);
+    }
+    pts.push([x + 70, y]);
+    var d = 'M' + pts.map(function (p) { return p[0] + ' ' + p[1]; }).join(' L');
+    var glow = svg.querySelector('.pc-step-glow'), line = svg.querySelector('.pc-step');
+    glow.setAttribute('d', d); line.setAttribute('d', d);
+    var L = line.getTotalLength();
+    [glow, line].forEach(function (el) { el.style.strokeDasharray = L; });
+    var man = svg.querySelector('.pc-man'), inner = svg.querySelector('.pc-man-in'), pen = svg.querySelector('.pc-pen');
+    var legF = svg.querySelector('.pc-leg-f'), legB = svg.querySelector('.pc-leg-b'), armF = svg.querySelector('.pc-arm-f'), armB = svg.querySelector('.pc-arm-b');
+    var body = svg.querySelector('.pc-body');
+    // chaque membre = contour vert + intérieur sombre + hachures claires (comme le personnage de l'image)
+    function triple(el, w) {
+        var a = el.cloneNode(), b = el.cloneNode();
+        el.setAttribute('stroke', 'var(--acc)'); el.setAttribute('stroke-width', w + 6);
+        a.setAttribute('stroke', '#0B0C0E'); a.setAttribute('stroke-width', w);
+        b.setAttribute('stroke', 'url(#pcHatch)'); b.setAttribute('stroke-width', w);
+        el.after(a, b);
+        return [el, a, b];
+    }
+    var parts = { legF: triple(legF, 16), legB: triple(legB, 16), armF: triple(armF, 11), armB: triple(armB, 11), body: triple(body, 30) };
+    function setD(arr, dd) { arr.forEach(function (e) { e.setAttribute('d', dd); }); }
+    function limb(x0, y0, a1, l1, a2, l2) {          // segment haut + segment bas (genou / coude)
+        var x1 = x0 + Math.sin(a1) * l1, y1 = y0 + Math.cos(a1) * l1;
+        var x2 = x1 + Math.sin(a2) * l2, y2 = y1 + Math.cos(a2) * l2;
+        return 'M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' L' + x2.toFixed(1) + ' ' + y2.toFixed(1);
+    }
+    var cur = 0, target = 0, walked = 0, face = 1, running = false;
+    function progress() {
+        var r = sec.getBoundingClientRect(), vh = innerHeight;
+        return Math.max(0, Math.min(1, (vh * 0.55 - r.top) / Math.max(1, r.height - vh * 0.6)));
+    }
+    function render() {
+        var draw = Math.min(1, cur * 1.08);                         // le trait avance un peu devant le personnage
+        glow.style.strokeDashoffset = line.style.strokeDashoffset = (L * (1 - draw)).toFixed(1);
+        var tip = line.getPointAtLength(L * draw);
+        pen.setAttribute('cx', tip.x); pen.setAttribute('cy', tip.y);
+        pen.style.opacity = draw > 0.002 && draw < 0.999 ? 1 : 0;
+        var at = Math.max(0, cur * 1.08 - 0.08) / 1.0;               // position du personnage sur l'escalier
+        var p = line.getPointAtLength(L * Math.min(1, at));
+        man.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + (p.y - 2).toFixed(1) + ')');
+        inner.setAttribute('transform', 'scale(' + (face * 1.35) + ' 1.35)');
+        var ph = walked * 0.09, s = Math.sin(ph), c = Math.cos(ph), k = 0.55;
+        // jambes : l'une avance pendant que l'autre recule, le genou plie
+        setD(parts.legF, limb(-1, -72, s * k, 38, s * k - Math.max(0, -c) * 0.7, 36));
+        setD(parts.legB, limb(-1, -72, -s * k, 38, -s * k - Math.max(0, c) * 0.7, 36));
+        setD(parts.armF, limb(2, -124, -s * 0.45, 28, -s * 0.45 - 0.5, 26));
+        setD(parts.armB, limb(2, -124, s * 0.45, 28, s * 0.45 - 0.5, 26));
+    }
+    function loop() {
+        var prev = cur;
+        cur += (target - cur) * (reduced ? 1 : 0.09);
+        var dv = cur - prev;
+        if (Math.abs(dv) > 0.00005) { walked += Math.abs(dv) * 2600; face = dv > 0 ? 1 : -1; }
+        render();
+        if (Math.abs(target - cur) > 0.0005) requestAnimationFrame(loop); else running = false;
+    }
+    function onScroll() {
+        target = progress();
+        if (!running) { running = true; requestAnimationFrame(loop); }
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    cur = target = progress(); render();
+})();

@@ -1,4 +1,28 @@
-<section class="sec paper" id="parcours" aria-labelledby="parcours-titre">
+<section class="sec paper is-night" id="parcours" aria-labelledby="parcours-titre">
+    {# Décor : escalier néon dessiné au feutre vert ; le personnage hachuré monte quand on descend la page, redescend quand on remonte #}
+    <div class="pc-scene" aria-hidden="true">
+        <div class="pc-stick">
+            <svg class="pc-svg" viewBox="0 0 640 720" data-stairs>
+                <defs>
+                    <filter id="pcGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+                    <pattern id="pcHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+                        <rect width="7" height="7" fill="#0B0C0E"/><rect width="7" height="3.2" fill="#E8FF9A"/>
+                    </pattern>
+                </defs>
+                <path class="pc-step-glow" d=""/>
+                <path class="pc-step" d=""/>
+                <g class="pc-man">
+                    <g class="pc-man-in">
+                        <path class="pc-limb pc-leg-b" d=""/><path class="pc-limb pc-arm-b" d=""/>
+                        <path class="pc-limb pc-body" d="M2 -128 L-1 -70"/>
+                        <circle class="pc-head" cx="6" cy="-150" r="15"/>
+                        <path class="pc-limb pc-leg-f" d=""/><path class="pc-limb pc-arm-f" d=""/>
+                    </g>
+                </g>
+                <circle class="pc-pen" r="9"/>
+            </svg>
+        </div>
+    </div>
     <div class="wrap">
         <p class="eyebrow reveal"><i></i>Expériences & formations</p>
         <h2 id="parcours-titre" class="sec-title" data-head>Mon <em>parcours.</em></h2>
