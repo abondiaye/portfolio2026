@@ -27,6 +27,35 @@
     </main>
 
     {{ include('sections/_footer.html.twig') }}
+
+    {# Bouton « retour en haut » en forme de cube : plein en haut de page, à moitié au milieu, vide à la fin ; le % indique où l'on est #}
+    <a href="#top" class="to-top" data-totop aria-label="Remonter en haut de la page">
+        {# texte en orbite 3D autour du cube : la moitié arrière passe derrière, la moitié avant devant #}
+        <span class="tt-orbit tt-orbit-back" aria-hidden="true"><svg class="tt-ring" viewBox="0 0 120 120">
+            <defs><path id="ttCircle" d="M60 60m-50 0a50 50 0 1 0 100 0a50 50 0 1 0-100 0"/></defs>
+            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">REMONTER ↑ · REMONTER ↑ · REMONTER ↑ · </textPath></text>
+        </svg></span>
+        <svg class="tt-cube" viewBox="0 0 60 64" aria-hidden="true">
+            <defs><clipPath id="ttClip"><path d="M30 4 56 18 56 46 30 60 4 46 4 18Z"/></clipPath></defs>
+            <path class="tt-glass" d="M30 4 56 18 56 46 30 60 4 46 4 18Z"/>
+            <g clip-path="url(#ttClip)">
+                <g class="tt-level"><path class="tt-wave tt-wave-b" d="M-60 0q7.5-3.5 15 0t15 0 15 0 15 0 15 0 15 0 15 0 15 0V80H-60Z"/><path class="tt-wave" d="M-60 0q7.5-3.5 15 0t15 0 15 0 15 0 15 0 15 0 15 0 15 0V80H-60Z"/></g>
+                <path class="tt-shade" d="M30 32 56 18 56 46 30 60Z"/>
+                <path class="tt-shine" d="M30 4 56 18 30 32 4 18Z"/>
+            </g>
+            <path class="tt-edges" d="M30 4 56 18 56 46 30 60 4 46 4 18Z M4 18 30 32 56 18 M30 32V60"/>
+            {# repères 70 %, 50 %, 25 % : niveau restant ; 100 % en haut de page, 0 % en arrivant au footer #}
+            {% for m in [70, 50, 25] %}
+                {% set ty = 4 + 56 * (100 - m) / 100 %}
+                <g class="tt-tick" data-at="{{ m }}"><path d="M-3 {{ ty }}H4"/><text x="-5" y="{{ ty + 2.3 }}">{{ m }}</text></g>
+            {% endfor %}
+        </svg>
+        <span class="tt-orbit tt-orbit-front" aria-hidden="true"><svg class="tt-ring" viewBox="0 0 120 120">
+            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">REMONTER ↑ · REMONTER ↑ · REMONTER ↑ · </textPath></text>
+        </svg></span>
+        <span class="tt-pct f-m"><b>100</b>%</span>
+        <svg class="tt-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </a>
 {% endblock %}
 
 {% block javascripts %}

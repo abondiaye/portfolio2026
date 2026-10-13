@@ -474,3 +474,33 @@
         pose(t);
     })(last);
 })();
+
+
+/* Bouton retour en haut (cube) : le liquide baisse quand on descend (plein en haut, moitié au milieu, vide à la fin),
+   le pourcentage indique où l'on se trouve dans la page */
+(function () {
+    var btn = document.querySelector('[data-totop]');
+    if (!btn) return;
+    var pct = btn.querySelector('.tt-pct b'), ticking = false, ticks = [].slice.call(btn.querySelectorAll('.tt-tick'));
+    function update() {
+        ticking = false;
+        // 0 % pile quand le footer arrive en bas de l'écran
+        var foot = document.querySelector('.foot');
+        var max = foot ? foot.getBoundingClientRect().top + scrollY - innerHeight : document.documentElement.scrollHeight - innerHeight;
+        if (max <= 0) max = document.documentElement.scrollHeight - innerHeight;
+        var p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+        btn.style.setProperty('--fill', (1 - p).toFixed(4));
+        var left = Math.round((1 - p) * 100);                    // ce qu'il reste : 100 % en haut, 0 % au footer
+        pct.textContent = left;
+        ticks.forEach(function (t) { t.classList.toggle('is-on', left <= +t.dataset.at); });   // repère atteint = vert
+        btn.setAttribute('aria-label', 'Remonter en haut de la page (il reste ' + left + ' % de la page)');
+    }
+    addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener('resize', update);
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        history.replaceState(null, '', location.pathname + location.search);
+    });
+    update();
+})();
