@@ -402,3 +402,33 @@
     }
     requestAnimationFrame(frame);
 })();
+
+
+/* Chiffres clés : compteur qui monte de 0 jusqu'à la valeur quand le chiffre apparaît (« +10 ans », « +50 », « 2 500+ ») */
+(function () {
+    var els = [].slice.call(document.querySelectorAll('.fch-stats dt, .stats b'));
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    els.forEach(function (el) {
+        var txt = el.textContent.trim();
+        var m = txt.match(/^(\D*?)(\d+(?:[\s  ]\d{3})*)(.*)$/);
+        if (!m || /^(19|20)\d\d$/.test(txt)) return;          // une année (ex. 2020) ne se compte pas
+        var pre = m[1], to = parseInt(m[2].replace(/\D/g, ''), 10), suf = m[3];
+        if (!to || reduced) return;
+        var fmt = function (n) { return n >= 1000 ? n.toLocaleString('fr-FR').replace(/ /g, ' ') : String(n); };
+        el.textContent = pre + '0' + suf;
+        var io = new IntersectionObserver(function (es) {
+            if (!es[es.length - 1].isIntersecting) return;
+            io.disconnect();
+            var delay = el.closest('.fch-stats') ? 900 : 200, dur = 1600;
+            setTimeout(function () {
+                var t0 = performance.now();
+                (function step(now) {
+                    var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(2, -10 * k);   // départ rapide, fin en douceur
+                    el.textContent = pre + fmt(Math.round(to * (k < 1 ? e : 1))) + suf;
+                    if (k < 1) requestAnimationFrame(step);
+                })(t0);
+            }, delay);
+        }, { threshold: 0.6 });
+        io.observe(el);
+    });
+})();

@@ -11,7 +11,7 @@ final class PortfolioData
     public const NAME = "N'DIAYE Abdoulaye";
     public const ROLE = 'Technicien Support IT N1-N2 & Développeur Web';
     public const EMAIL = 'a_ndiaye@outlook.com';
-    public const PHONE = '07 75 03 79 48';
+    public const PHONE = '+33 7 75 03 79 48';
     public const PHONE_LINK = '+33775037948';
     public const CV = 'asset/cv/CV_NDIAYE_Abdoulaye.pdf';
     public const VCARD = 'asset/contact/abdoulaye-ndiaye.vcf';
@@ -32,7 +32,7 @@ final class PortfolioData
             // Ligne 1 en haut à gauche, ligne 2 en bas à droite. *mot* = dégradé vert + étincelle
             'heading1' => 'Support IT &',
             'heading2' => 'développeur *web.*',
-            'subCopy' => "10 ans de support utilisateurs N1-N2 (GLPI, ITIL, ServiceNow, Active Directory) et des sites web sur mesure en PHP, Symfony et Vue.js.",
+            'subCopy' => "Plus de 10 ans de support utilisateurs N1-N2 (GLPI, ITIL, ServiceNow, Active Directory) et des sites web sur mesure en PHP, Symfony et Vue.js.",
             'primary' => ['label' => 'Me contacter', 'href' => '#contact'],
             'secondary' => ['label' => 'Voir mes projets', 'href' => '#projets'],
             'nav' => self::hero()['nav'],
@@ -46,8 +46,8 @@ final class PortfolioData
                 ['a' => 'GeniusPro360°', 'b' => 'en ligne · Symfony 6.4'],
             ],
             'stats' => [
-                ['a' => '10 ans', 'b' => 'de support IT N1-N2'],
-                ['a' => '5', 'b' => 'projets web livrés'],
+                ['a' => '+10 ans', 'b' => 'de support IT N1-N2'],
+                ['a' => '+50', 'b' => 'projets web livrés'],
                 ['a' => '2 500+', 'b' => 'utilisateurs supportés'],
             ],
             'cursorLabel' => 'Cliquez pour transformer',
@@ -61,7 +61,7 @@ final class PortfolioData
             'badge' => 'Lyon · Ouvert aux missions freelance',
             // "|" = retour à la ligne, *mots* = surlignés en vert
             'heading' => 'Support IT|*& développeur web.*',
-            'subCopy' => "10 ans d'expérience en support utilisateurs (GLPI, ITIL, ServiceNow), Active Directory et déploiement de postes Windows, doublée d'une compétence en développement web Fullstack : PHP, Symfony, Vue.js.",
+            'subCopy' => "Plus de 10 ans d'expérience en support utilisateurs (GLPI, ITIL, ServiceNow), Active Directory et déploiement de postes Windows, doublée d'une compétence en développement web Fullstack : PHP, Symfony, Vue.js.",
             'primary' => ['label' => 'Me contacter', 'href' => '#contact'],
             'secondary' => ['label' => 'Voir mes projets', 'href' => '#projets'],
             'nav' => [
@@ -88,7 +88,7 @@ final class PortfolioData
             'services' => ['Support N1/N2', 'Symfony', 'Vue.js', 'ITIL'],
             'counterLabel' => 'Personnes touchées pendant votre visite',
             'counterStart' => 0,
-            'proofTop' => '10 ans de support IT · 5 projets livrés',
+            'proofTop' => '+10 ans de support IT · +50 projets livrés',
             'proofBottom' => '2 500+ utilisateurs supportés · Lyon',
             'hint' => 'Bougez la souris · cliquez pour lancer',
             'cursorLabel' => 'Signal',
@@ -103,8 +103,8 @@ final class PortfolioData
             'photo' => 'asset/profil-2026.jpg',
             'intro' => "En freelance, je conçois des sites et applications sur mesure pour les PME avec GeniusPro360°.",
             'stats' => [
-                ['value' => '10 ans', 'label' => 'de support IT'],
-                ['value' => '5', 'label' => 'projets livrés'],
+                ['value' => '+10 ans', 'label' => 'de support IT'],
+                ['value' => '+50', 'label' => 'projets livrés'],
                 ['value' => '2 500+', 'label' => 'utilisateurs supportés'],
                 ['value' => '2020', 'label' => 'je code depuis'],
             ],
@@ -332,7 +332,7 @@ final class PortfolioData
             'eyebrow' => 'Ils m\'ont fait confiance',
             'title' => 'Dix ans de missions.|*Un seul noyau.*',
             'text' => "Énergie, santé, industrie, secours : des environnements critiques où le support ne peut pas attendre. Passez sur un nom pour voir ce que j'y ai fait.",
-            'core' => '10 ans',
+            'core' => '+10 ans',
             'items' => [
                 ['name' => 'Renault Trucks Volvo', 'tag' => 'Industrie', 'what' => 'Guichet informatique N1/N2'],
                 ['name' => 'Sanofi Pasteur', 'tag' => 'Santé', 'what' => '2 500 utilisateurs'],
