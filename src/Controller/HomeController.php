@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\I18n;
 use App\Data\PortfolioData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -15,37 +17,47 @@ class HomeController extends AbstractController
     ) {
     }
 
-    #[Route('/', name: 'home')]
-    public function index(): Response
+    #[Route('/', name: 'home', defaults: ['_locale' => 'fr'])]
+    #[Route('/en', name: 'home_en', defaults: ['_locale' => 'en'])]
+    public function index(Request $request): Response
     {
-        // Les contenus se modifient dans src/Data/PortfolioData.php
-        $hero = PortfolioData::hero();
+        // Les contenus se modifient dans src/Data/PortfolioData.php (français) et src/Data/I18n.php (anglais)
+        $locale = in_array($request->getLocale(), I18n::LOCALES, true) ? $request->getLocale() : 'fr';
+        $d = fn (string $section) => 'en' === $locale ? I18n::en($section, PortfolioData::$section()) : PortfolioData::$section();
+
+        $hero = $d('hero');
         $hero['headingLines'] = $this->splitHeading($hero['heading']);
         $hero['headingPlain'] = trim(preg_replace('/\s+/', ' ', str_replace(['*', '|'], ['', ' '], $hero['heading'])));
 
-        $orb = PortfolioData::heroOrb();
+        $orb = $d('heroOrb');
         $orb['h1'] = array_merge(...$this->splitHeading($orb['heading1'], 260, 70));
         $orb['h2'] = array_merge(...$this->splitHeading($orb['heading2'], 460, 70));
         $orb['headingPlain'] = str_replace('*', '', $orb['heading1'].' '.$orb['heading2']);
 
-        $timeline = PortfolioData::timeline();
+        $timeline = $d('timeline');
+        $about = $d('about');
+        $tr = I18n::ui($locale);
+        $tr['fNote'] = strtr($tr['fNote'], ['%mail%' => PortfolioData::EMAIL, '%phone%' => PortfolioData::PHONE]);
 
         return $this->render('home/index.html.twig', [
+            'locale' => $locale,
+            'tr' => $tr,
+            'urls' => ['fr' => $this->generateUrl('home'), 'en' => $this->generateUrl('home_en')],
             'heroStyle' => PortfolioData::HERO_STYLE,
             'hero' => $hero,
             'orb' => $orb,
-            'about' => PortfolioData::about() + ['skillCount' => array_sum(array_map('count', PortfolioData::about()['skills']))],
-            'projects' => PortfolioData::projects(),
+            'about' => $about + ['skillCount' => array_sum(array_map('count', $about['skills']))],
+            'projects' => $d('projects'),
             'timeline' => $timeline,
             'counts' => [
                 'postes' => count(array_filter($timeline, fn ($t) => 'poste' === $t['type'])),
                 'formations' => count(array_filter($timeline, fn ($t) => 'formation' === $t['type'])),
             ],
-            'hobbies' => $this->resolveHobbies(PortfolioData::hobbies()),
+            'hobbies' => $this->resolveHobbies($d('hobbies')),
             'links' => PortfolioData::links(),
-            'manifesto' => $this->splitManifesto(PortfolioData::manifesto()),
-            'clients' => PortfolioData::clients(),
-            'cta' => PortfolioData::cta(),
+            'manifesto' => $this->splitManifesto($d('manifesto')),
+            'clients' => $d('clients'),
+            'cta' => $d('cta'),
             'contact' => [
                 'name' => PortfolioData::NAME,
                 'role' => PortfolioData::ROLE,

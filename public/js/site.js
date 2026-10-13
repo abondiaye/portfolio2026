@@ -102,26 +102,40 @@
     if (form) {
         var msg = form.querySelector('.form-msg'), btn = form.querySelector('.send');
         var say = function (text, cls) { msg.textContent = text; msg.className = 'form-msg ' + (cls || ''); };
+        var EN = document.documentElement.lang === 'en';
+        var L = EN ? {
+            invalid: 'Please enter a valid email address and a message.', sending: 'Sending…',
+            ok: 'Thank you, your message was sent by email. Please also confirm the send in WhatsApp. I will get back to you quickly.',
+            activation: 'The form is being activated. In the meantime, write to me directly at ', fail: 'Sending failed. Write to me directly at ',
+            waReady: ' Your message is ready in WhatsApp anyway.', mailLbl: 'My email: ', cvLbl: "I'd like to receive your CV.",
+            subjCv: 'Portfolio: CV request', subj: 'Portfolio: new message', yes: 'Yes', no: 'No'
+        } : {
+            invalid: 'Merci d\'indiquer une adresse mail valide et un message.', sending: 'Envoi en cours…',
+            ok: 'Merci, votre message est bien parti par mail. Validez aussi l\'envoi dans WhatsApp. Je vous réponds rapidement.',
+            activation: 'Le formulaire est en cours d\'activation. En attendant, écrivez-moi directement à ', fail: 'L\'envoi n\'a pas fonctionné. Écrivez-moi directement à ',
+            waReady: ' Votre message est quand même prêt dans WhatsApp.', mailLbl: 'Mon mail : ', cvLbl: 'Je souhaite recevoir votre CV.',
+            subjCv: 'Portfolio : demande de CV', subj: 'Portfolio : nouveau message', yes: 'Oui', no: 'Non'
+        };
         // WhatsApp : ouvre la conversation avec le message déjà écrit dans le formulaire
         var waBtn = form.querySelector('[data-wa]');
         var openWa = function () {
-            var txt = 'Bonjour Abdoulaye, je vous contacte depuis votre portfolio.';
+            var txt = waBtn.dataset.waHello || 'Bonjour Abdoulaye, je vous contacte depuis votre portfolio.';
             if (form.message.value.trim()) txt += '\n\n' + form.message.value.trim();
-            if (form.email.value.trim()) txt += '\n\nMon mail : ' + form.email.value.trim();
-            if (form.demande_cv.checked) txt += '\n\nJe souhaite recevoir votre CV.';
+            if (form.email.value.trim()) txt += '\n\n' + L.mailLbl + form.email.value.trim();
+            if (form.demande_cv.checked) txt += '\n\n' + L.cvLbl;
             window.open('https://wa.me/' + waBtn.dataset.wa + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
         };
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (form._honey.value) return; // robot
             if (!form.checkValidity()) {
-                say('Merci d\'indiquer une adresse mail valide et un message.', 'err');
+                say(L.invalid, 'err');
                 form.reportValidity();
                 return;
             }
             if (waBtn) openWa();   // WhatsApp s'ouvre tout de suite (pendant le clic, sinon le navigateur bloque la fenêtre)
             btn.disabled = true;
-            say('Envoi en cours…');
+            say(L.sending);
             var cv = form.demande_cv.checked;
             fetch(form.dataset.endpoint, {
                 method: 'POST',
@@ -129,14 +143,14 @@
                 body: JSON.stringify({
                     email: form.email.value,
                     message: form.message.value,
-                    demande_cv: cv ? 'Oui' : 'Non',
-                    _subject: cv ? 'Portfolio : demande de CV' : 'Portfolio : nouveau message',
+                    demande_cv: cv ? L.yes : L.no,
+                    _subject: cv ? L.subjCv : L.subj,
                     _template: 'table'
                 })
             }).then(function (r) { return r.json().catch(function () { return { success: false, message: 'HTTP ' + r.status }; }); }).then(function (data) {
                 if (data && (data.success === true || data.success === 'true')) {
                     form.reset();
-                    say('Merci, votre message est bien parti par mail. Validez aussi l\'envoi dans WhatsApp. Je vous réponds rapidement.', 'ok');
+                    say(L.ok, 'ok');
                 } else {
                     // FormSubmit renvoie la raison (ex. : formulaire pas encore activé) : on la garde pour la console
                     if (window.console) console.warn('FormSubmit :', data && data.message);
@@ -146,9 +160,9 @@
             }).catch(function (err) {
                 var mail = (form.dataset.endpoint || '').split('/').pop();
                 say(err && err.message === 'activation'
-                    ? 'Le formulaire est en cours d\'activation. En attendant, écrivez-moi directement à ' + mail + '.'
-                    : 'L\'envoi n\'a pas fonctionné. Écrivez-moi directement à ' + mail + '.', 'err');
-                if (waBtn) msg.textContent += ' Votre message est quand même prêt dans WhatsApp.';
+                    ? L.activation + mail + '.'
+                    : L.fail + mail + '.', 'err');
+                if (waBtn) msg.textContent += L.waReady;
             }).finally(function () { btn.disabled = false; });
         });
     }
@@ -203,4 +217,21 @@
     }
     draw();
     setInterval(draw, 70);
+})();
+
+
+/* Sélecteur de langue FR / EN : on garde la section affichée en changeant de langue */
+(function () {
+    var sw = document.querySelector('[data-lang-sw]');
+    if (!sw) return;
+    sw.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            if (a.classList.contains('is-on')) { e.preventDefault(); return; }
+            var mid = innerHeight * 0.4, best = null;
+            document.querySelectorAll('section[id]').forEach(function (s) {
+                if (s.getBoundingClientRect().top <= mid) best = s.id;   // dernière section commencée au-dessus du milieu
+            });
+            if (best && scrollY > 80) { e.preventDefault(); location.href = a.getAttribute('href') + '#' + best; }
+        });
+    });
 })();

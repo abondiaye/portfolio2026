@@ -5,10 +5,10 @@
 <section class="sec hob" id="hobbies" aria-labelledby="hobbies-titre">
     <div class="wrap hob-head">
         <div>
-            <p class="eyebrow reveal"><i></i>En dehors du code</p>
-            <h2 id="hobbies-titre" class="sec-title" data-head>Mes <em>hobbies.</em></h2>
+            <p class="eyebrow reveal"><i></i>{{ tr.hobEyebrow }}</p>
+            <h2 id="hobbies-titre" class="sec-title" data-head>{{ tr.hobTitle|raw }}</h2>
         </div>
-        <p class="hob-lead reveal">Cuisine, foot en salle, réparation et bénévolat : ce qui m'occupe quand je ne suis pas derrière un écran. Clique sur une photo pour l'agrandir.</p>
+        <p class="hob-lead reveal">{{ tr.hobLead }}</p>
     </div>
 
     <div class="hob-wall" data-hobwall style="--n:{{ hobbies|length }}">
@@ -30,7 +30,7 @@
                                         {% set dup = k or r > 1 %}
                                         <a href="{{ asset(ph.big) }}" class="hob-card" data-lightbox="{{ hi + 1 }}" data-i="{{ loop.index0 }}"{% if dup %} data-dup tabindex="-1"{% endif %}>
                                             <span class="hob-img" style="--ar:{{ ['4/5','1/1','3/4','5/4','4/5','1/1'][loop.index0 % 6] }}">
-                                                <img src="{{ asset(ph.big) }}" alt="{{ dup ? '' : h.title ~ ' — photo ' ~ loop.index }}" loading="lazy" decoding="async">
+                                                <img src="{{ asset(ph.big) }}" alt="{{ dup ? '' : h.title ~ ' — ' ~ tr.photo ~ ' ' ~ loop.index }}" loading="lazy" decoding="async">
                                                 {% if loop.index0 % 3 == 0 %}<span class="hob-count f-m">{{ loop.index }}/{{ h.photos|length }}</span>{% endif %}
                                             </span>
                                             <span class="hob-meta">
@@ -49,10 +49,10 @@
         {% endfor %}
     </div>
 
-    <dialog class="lightbox" aria-label="Photo agrandie">
+    <dialog class="lightbox" aria-label="{{ tr.lbAria }}">
         <img src="" alt="">
-        <button type="button" class="lb-close" aria-label="Fermer">✕</button>
-        <button type="button" class="lb-prev" aria-label="Photo précédente">‹</button>
-        <button type="button" class="lb-next" aria-label="Photo suivante">›</button>
+        <button type="button" class="lb-close" aria-label="{{ tr.close }}">✕</button>
+        <button type="button" class="lb-prev" aria-label="{{ tr.prev }}">‹</button>
+        <button type="button" class="lb-next" aria-label="{{ tr.next }}">›</button>
     </dialog>
 </section>

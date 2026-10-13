@@ -29,11 +29,11 @@
     {{ include('sections/_footer.html.twig') }}
 
     {# Bouton « retour en haut » en forme de cube : plein en haut de page, à moitié au milieu, vide à la fin ; le % indique où l'on est #}
-    <a href="#top" class="to-top" data-totop aria-label="Remonter en haut de la page">
+    <a href="#top" class="to-top" data-totop aria-label="{{ tr.topAria }}">
         {# texte en orbite 3D autour du cube : la moitié arrière passe derrière, la moitié avant devant #}
         <span class="tt-orbit tt-orbit-back" aria-hidden="true"><svg class="tt-ring" viewBox="0 0 120 120">
             <defs><path id="ttCircle" d="M60 60m-50 0a50 50 0 1 0 100 0a50 50 0 1 0-100 0"/></defs>
-            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">REMONTER ↑ · REMONTER ↑ · REMONTER ↑ · </textPath></text>
+            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">{{ tr.topRing }}</textPath></text>
         </svg></span>
         <svg class="tt-cube" viewBox="0 0 60 64" aria-hidden="true">
             <defs><clipPath id="ttClip"><path d="M30 4 56 18 56 46 30 60 4 46 4 18Z"/></clipPath></defs>
@@ -51,7 +51,7 @@
             {% endfor %}
         </svg>
         <span class="tt-orbit tt-orbit-front" aria-hidden="true"><svg class="tt-ring" viewBox="0 0 120 120">
-            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">REMONTER ↑ · REMONTER ↑ · REMONTER ↑ · </textPath></text>
+            <text><textPath href="#ttCircle" textLength="312" lengthAdjust="spacing">{{ tr.topRing }}</textPath></text>
         </svg></span>
         <span class="tt-pct f-m"><b>100</b>%</span>
         <svg class="tt-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>

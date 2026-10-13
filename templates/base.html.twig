@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ locale|default('fr') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}N'DIAYE Abdoulaye · Support IT & Développeur Web{% endblock %}</title>
-    <meta name="description" content="{% block description %}Portfolio de N'DIAYE Abdoulaye, technicien support IT N1-N2 à Lyon (plus de 10 ans d'expérience) et développeur web fullstack PHP, Symfony et Vue.js.{% endblock %}">
+    <title>{% block title %}{{ tr.htmlTitle }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ tr.metaDesc }}{% endblock %}">
     <meta name="author" content="N'DIAYE Abdoulaye">
     <meta name="theme-color" content="#08090A">
-    <meta property="og:title" content="N'DIAYE Abdoulaye · Support IT & Développeur Web">
-    <meta property="og:description" content="Technicien Support IT N1-N2 & Développeur Web PHP / Symfony / Vue.js à Lyon.">
+    <meta property="og:title" content="{{ tr.htmlTitle }}">
+    <meta property="og:description" content="{{ tr.ogDesc }}">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale" content="{{ tr.ogLocale }}">
+    {% if urls is defined %}<link rel="alternate" hreflang="fr" href="{{ absolute_url(urls.fr) }}">
+    <link rel="alternate" hreflang="en" href="{{ absolute_url(urls.en) }}">
+    <link rel="alternate" hreflang="x-default" href="{{ absolute_url(urls.fr) }}">{% endif %}
     <meta property="og:image" content="{{ absolute_url(asset('asset/projets/portfolio.png')) }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml" id="favicon">
     <link rel="alternate icon" href="{{ asset('favicon-32.png') }}" type="image/png">

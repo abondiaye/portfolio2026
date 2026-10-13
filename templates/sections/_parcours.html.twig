@@ -30,19 +30,19 @@
         </div>
     </div>
     <div class="wrap">
-        <p class="eyebrow reveal"><i></i>Expériences & formations</p>
-        <h2 id="parcours-titre" class="sec-title" data-head>Mon <em>parcours.</em></h2>
+        <p class="eyebrow reveal"><i></i>{{ tr.tlEyebrow }}</p>
+        <h2 id="parcours-titre" class="sec-title" data-head>{{ tr.tlTitle|raw }}</h2>
 
         <ul class="stats reveal">
-            <li><b>{{ counts.postes }}</b><span>postes occupés</span></li>
-            <li><b>{{ counts.formations }}</b><span>formations suivies</span></li>
-            <li><b>+10 ans</b><span>d'expérience IT</span></li>
+            <li><b>{{ counts.postes }}</b><span>{{ tr.tlJobs }}</span></li>
+            <li><b>{{ counts.formations }}</b><span>{{ tr.tlTrainings }}</span></li>
+            <li><b>{{ tr.tlYears }}</b><span>{{ tr.tlYearsLabel }}</span></li>
         </ul>
 
-        <div class="filters reveal" role="group" aria-label="Filtrer le parcours">
-            <button type="button" class="filter is-on" data-filter="all" aria-pressed="true">Tout</button>
-            <button type="button" class="filter" data-filter="poste" aria-pressed="false">Postes</button>
-            <button type="button" class="filter" data-filter="formation" aria-pressed="false">Formations</button>
+        <div class="filters reveal" role="group" aria-label="{{ tr.tlFilterAria }}">
+            <button type="button" class="filter is-on" data-filter="all" aria-pressed="true">{{ tr.tlAll }}</button>
+            <button type="button" class="filter" data-filter="poste" aria-pressed="false">{{ tr.tlJobsBtn }}</button>
+            <button type="button" class="filter" data-filter="formation" aria-pressed="false">{{ tr.tlTrainingsBtn }}</button>
         </div>
 
         <ol class="timeline" data-timeline>
@@ -59,7 +59,7 @@
                         <div class="tl-head">
                             {% if t.logo %}<img src="{{ asset(t.logo) }}" alt="" class="tl-logo" loading="lazy">{% endif %}
                             <div>
-                                <span class="tl-type">{{ t.type == 'poste' ? 'Poste' : 'Formation' }}</span>
+                                <span class="tl-type">{{ t.type == 'poste' ? tr.tlJob : tr.tlTraining }}</span>
                                 <h3>{{ t.title }}</h3>
                                 <p class="tl-org">{{ t.org }}</p>
                             </div>

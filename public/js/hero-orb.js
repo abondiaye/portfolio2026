@@ -114,7 +114,7 @@
             shape = (shape + 1) % 4;
             sec.classList.toggle('is-g', shape === 0);
             labels.forEach(function (b, i) { b.classList.toggle('is-on', i === shape); });
-            box.setAttribute('aria-label', 'Changer la forme, actuellement : ' + (names[shape] || ''));
+            box.setAttribute('aria-label', (box.dataset.aria || 'Changer la forme, actuellement :') + ' ' + (names[shape] || ''));
         };
         box.addEventListener('click', function () { morph(false); });
         box.addEventListener('keydown', function (e) {

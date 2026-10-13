@@ -27,15 +27,23 @@
 <section class="fc fch fc-dark" data-orb aria-label="{{ orb.headingPlain }}">
     <div class="fch-bg" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="grid"></i></div>
 
-    <nav class="fch-nav rise" aria-label="Navigation principale">
-        <a class="fch-logo f-d" href="{{ path('home') }}">
+    <nav class="fch-nav rise" aria-label="{{ tr.navAria }}">
+        <a class="fch-logo f-d" href="{{ urls[locale] }}">
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 1.5C12.9 8 16 11.1 22.5 12 16 12.9 12.9 16 12 22.5 11.1 16 8 12.9 1.5 12 8 11.1 11.1 8 12 1.5Z"/></svg>
             {{ orb.brand }}
         </a>
         <ul class="fch-links">
             {% for l in orb.nav %}<li><a href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}
         </ul>
-        <span class="fch-navcta">{{ ui.btn(asset(orb.navCta.href), orb.navCta.label, 'ghost', false) }}</span>
+        <span class="fch-navcta">
+            {# sélecteur de langue FR / EN : la pastille verte glisse sur la langue active #}
+            <span class="lang-sw" role="group" aria-label="{{ tr.langLabel }}" data-lang-sw>
+                <a href="{{ urls.fr }}" hreflang="fr" lang="fr" class="{{ locale == 'fr' ? 'is-on' }}"{% if locale == 'fr' %} aria-current="true"{% endif %}>FR</a>
+                <a href="{{ urls.en }}" hreflang="en" lang="en" class="{{ locale == 'en' ? 'is-on' }}"{% if locale == 'en' %} aria-current="true"{% endif %}>EN</a>
+                <i class="lang-pill{{ locale == 'en' ? ' is-en' }}" aria-hidden="true"></i>
+            </span>
+            {{ ui.btn(asset(orb.navCta.href), orb.navCta.label, 'ghost', false) }}
+        </span>
     </nav>
 
     <div class="fch-stage">
@@ -50,7 +58,7 @@
         </h1>
 
         <div class="fch-orb" data-cur="{{ orb.cursorLabel }}" role="button" tabindex="0"
-             aria-label="Changer la forme, actuellement : {{ orb.shapes|first }}"
+             aria-label="{{ tr.orbAria }} {{ orb.shapes|first }}" data-aria="{{ tr.orbAria }}"
              data-shapes="{{ orb.shapes|json_encode|e('html_attr') }}">
             <canvas aria-hidden="true"></canvas>
             <span class="fch-halo" aria-hidden="true"></span>
@@ -59,7 +67,7 @@
             </span>
         </div>
 
-        <ul class="fch-chips" aria-label="Quelques réalisations">
+        <ul class="fch-chips" aria-label="{{ tr.chipsAria }}">
             {% for c in orb.chips %}
                 <li class="fch-chip{{ loop.first ? ' is-hot' }}" style="--i:{{ loop.index0 }};transition-delay:{{ 1100 + loop.index0 * 120 }}ms">
                     <i aria-hidden="true"></i><b>{{ c.a }}</b><span class="f-m">{{ c.b }}</span>

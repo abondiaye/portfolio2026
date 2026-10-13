@@ -3,18 +3,18 @@
         {# Photo en « avant / après » (comme le comparateur Flowcraft) : à gauche Support IT en noir et blanc, à droite Développeur web en couleur #}
         <div class="about-photo ba reveal" data-ba style="--p:50%">
             <div class="ba-side ba-a"><img src="{{ asset(about.photo) }}" alt="" aria-hidden="true" loading="lazy"></div>
-            <div class="ba-side ba-b"><img src="{{ asset(about.photo) }}" alt="Photo de N'DIAYE Abdoulaye" loading="lazy"></div>
+            <div class="ba-side ba-b"><img src="{{ asset(about.photo) }}" alt="{{ tr.photoAlt }}" loading="lazy"></div>
             <span class="ba-chip f-m"><b></b>N'DIAYE Abdoulaye · {{ "now"|date("Y") }}</span>
-            <span class="ba-tag ba-tag-a f-m">Support IT</span>
-            <span class="ba-tag ba-tag-b f-m">Développeur web</span>
+            <span class="ba-tag ba-tag-a f-m">{{ tr.baA }}</span>
+            <span class="ba-tag ba-tag-b f-m">{{ tr.baB }}</span>
             <span class="ba-line" aria-hidden="true"></span>
-            <button type="button" class="ba-handle" role="slider" aria-label="Comparer Support IT et Développeur web" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <button type="button" class="ba-handle" role="slider" aria-label="{{ tr.baAria }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg>
             </button>
         </div>
         <div class="about-txt">
-            <p class="eyebrow reveal"><i></i>Qui suis-je</p>
-            <h2 id="competences-titre" class="sec-title" data-head>Double compétence,<br><em>un seul interlocuteur.</em></h2>
+            <p class="eyebrow reveal"><i></i>{{ tr.aboutEyebrow }}</p>
+            <h2 id="competences-titre" class="sec-title" data-head>{{ tr.aboutTitle|raw }}</h2>
             <p class="lead reveal">{{ hero.subCopy }}</p>
             <p class="reveal">{{ about.intro }}</p>
             <ul class="stats reveal">
@@ -28,15 +28,15 @@
     {# Tableau de compétences : panneau vert, colonnes, cartes sombres qui tombent en place (comme « Same week, different job ») #}
     <div class="wrap board-wrap">
         <div class="board-head">
-            <h3 class="board-title f-d" data-head>Deux métiers.<br><em>Une boîte à outils.</em></h3>
+            <h3 class="board-title f-d" data-head>{{ tr.boardTitle|raw }}</h3>
             <div class="board-count reveal">
                 <b class="f-d"><span data-countup="{{ about.skillCount }}">0</span></b>
-                <span>compétences utilisées en mission</span>
+                <span>{{ tr.boardCount }}</span>
                 <i class="board-bar"><i></i></i>
             </div>
         </div>
         <div class="board" data-board style="--cols:{{ about.skills|length }}">
-            <p class="board-tag f-m">N'DIAYE · BOÎTE À OUTILS</p>
+            <p class="board-tag f-m">{{ tr.boardTag }}</p>
             <div class="board-grid">
                 {% for group, items in about.skills %}
                     <div class="board-col">
@@ -55,7 +55,7 @@
     </div>
 
     {# Qualités : double bandeau géant (comme le pied de page Flowcraft) — ligne contour + ligne pleine, sens opposés #}
-    <div class="mq" data-mq aria-label="Qualités : {{ about.qualities|join(', ') }}">
+    <div class="mq" data-mq aria-label="{{ tr.qualitiesAria }} : {{ about.qualities|join(', ') }}">
         {% for row in [about.qualities, about.qualities|reverse] %}
             <div class="mq-row {{ loop.first ? 'mq-outline' : 'mq-solid' }}" aria-hidden="true">
                 <div class="mq-track">

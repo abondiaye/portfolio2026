@@ -499,7 +499,7 @@
         var left = Math.round((1 - p) * 100);                    // ce qu'il reste : 100 % en haut, 0 % au footer
         pct.textContent = left;
         ticks.forEach(function (t) { t.classList.toggle('is-on', left <= +t.dataset.at); });   // repère atteint = vert
-        btn.setAttribute('aria-label', 'Remonter en haut de la page (il reste ' + left + ' % de la page)');
+        btn.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Back to top (' + left + '% of the page left)' : 'Remonter en haut de la page (il reste ' + left + ' % de la page)');
     }
     addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     addEventListener('resize', update);
